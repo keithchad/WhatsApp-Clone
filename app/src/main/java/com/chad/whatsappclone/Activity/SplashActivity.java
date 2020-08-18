@@ -1,10 +1,12 @@
-package com.chad.whatsappclone;
+package com.chad.whatsappclone.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.chad.whatsappclone.R;
 
 public class SplashActivity extends AppCompatActivity {
 
