@@ -35,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
         setUpWithViewPager(binding.viewPager);
         binding.tabLayout.setUpWithViewPager(binding.viewPager);
         setSupportActionBar(binding.toolbar);
+
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                changeFabIcon(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setUpWithViewPager(ViewPager viewPager) {
@@ -113,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 switch(index) {
                     case 0:
-                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
                         break;
                     case 1:
-                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));
                         break;
                     case 2:
                         binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
