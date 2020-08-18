@@ -22,9 +22,7 @@ android {
         }
     }
 
-    dataBinding {
 
-    }
 }
 
 dependencies {
