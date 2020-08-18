@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.chad.whatsappclone.Fragments.CallsFragment;
 import com.chad.whatsappclone.Fragments.ChatsFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpWithViewPager(binding.viewPager);
         binding.tabLayout.setUpWithViewPager(binding.viewPager);
+        setSupportActionBar(binding.toolbar);
     }
 
     private void setUpWithViewPager(ViewPager viewPager) {
@@ -75,5 +77,12 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+
     }
 }
