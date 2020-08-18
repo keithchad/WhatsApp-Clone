@@ -6,13 +6,11 @@
         android:id="@+id/menu_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
-        android:iconTint="@android:color/white"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_more"
         android:icon="@drawable/ic_more"
-        android:iconTint="@android:color/white"
         android:title="More"
         app:showAsAction="always"/>
 </menu>

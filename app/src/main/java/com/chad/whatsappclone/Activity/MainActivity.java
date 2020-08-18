@@ -10,6 +10,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.chad.whatsappclone.Fragments.CallsFragment;
 import com.chad.whatsappclone.Fragments.ChatsFragment;
@@ -83,6 +85,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch(item.getItemId()) {
+         case R.id.menu_search:
+             Toast.makeText(MainActivity.this, "Search Selected", Toast.LENGTH_LONG).show();
+            return true;
+         case R.id.menu_more:
+             Toast.makeText(MainActivity.this, "More Selected", Toast.LENGTH_LONG).show();
+             return true;
+
+         default:
+            return false;
+
+        }
     }
 }
