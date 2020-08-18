@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        setUpWithViewPager(binding.viewPager);
+        binding.tabLayout.setUpWithViewPager(binding.viewPager);
     }
 
     private void setUpWithViewPager(ViewPager viewPager) {

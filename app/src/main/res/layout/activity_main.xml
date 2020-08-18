@@ -15,9 +15,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             app:title="WhatsApp"
             app:titleTextColor="@android:color/white"/>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -25,13 +26,13 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
             app:tabIndicator="@color/colorPrimary"
-            app:tabIndicatorHeight="?actionBarSize"
+            app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabTextColor="@color/colorPrimary">
-
+            app:tabIndicatorColor="@android:color/white"
+            app:tabTextColor="@android:color/white">
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -40,8 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginTop="50dp" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 
