@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -102,5 +103,31 @@ public class MainActivity extends AppCompatActivity {
             return false;
 
         }
+    }
+
+    private void changeFabIcon(final int index) {
+        binding.fabAction.hide();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switch(index) {
+                    case 0:
+                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                        break;
+                    case 1:
+                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                        break;
+                    case 2:
+                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                        break;
+                }
+
+                binding.fabAction.show();
+            }
+        }, 400);
+
+
+
     }
 }
