@@ -25,7 +25,6 @@ public class ChatsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private List<Chat> list = new ArrayList<>();
     private RecyclerView recyclerView;
 
     @Override
@@ -35,25 +34,22 @@ public class ChatsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getChatlist();
+        List<Chat> list = new ArrayList<>();
+
+        list.add(new Chat("11","John Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Jane Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Erick Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Josh Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Sam Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Sheila Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Sarah Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Lilly Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Emmy Doe","Hello Homie!","20/08/2020",""));
+        list.add(new Chat("11","Sharon Doe","Hello Homie!","20/08/2020",""));
+
+        recyclerView.setAdapter(new ChatAdapter(list, getContext()));
 
         return view;
     }
 
-    private void getChatlist() {
-
-    list.add(new Chat("11","John Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Jane Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Erick Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Josh Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Sam Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Sheila Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Sarah Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Lilly Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Emmy Doe","Hello Homie!","20/08/2020",""));
-    list.add(new Chat("11","Sharon Doe","Hello Homie!","20/08/2020",""));
-
-    recyclerView.setAdapter(new ChatAdapter(list, getContext()));
-
-    }
 }
