@@ -2,6 +2,8 @@
   <dictionary name="lilly s">
     <words>
       <w>countrycode</w>
+      <w>edittext</w>
+      <w>phonenumber</w>
       <w>whatsapp</w>
     </words>
   </dictionary>

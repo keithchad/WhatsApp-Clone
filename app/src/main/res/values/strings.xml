@@ -6,9 +6,10 @@
     <string name="agree_and_continue">Agree and Continue</string>
     <string name="read_our_privacy_policy">Read Our Privacy Policy. Tap \'Agree and Continue\' to accept Terms of service</string>
     <string name="enter_phone_number">Enter your phone number</string>
-    <string name="verify_your_phone_number">WhatsApp will send an SMS message to verify your phone number.</string>
+    <string name="verify_your_phone_number">WhatsApp will send an SMS message to verify your phone number.What\'s my number?</string>
     <string name="countrycode">254</string>
     <string name="phone_number">phone number</string>
     <string name="countrycode_">+</string>
     <string name="carrier_sms">Carrier SMS charges may apply</string>
+    <string name="next">Next</string>
 </resources>

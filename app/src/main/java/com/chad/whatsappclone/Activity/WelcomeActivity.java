@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.chad.whatsappclone.Authentication.PhoneLoginActivity;
 import com.chad.whatsappclone.R;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, PhoneLoginActivity.class));
                 finish();
             }
         });
