@@ -96,6 +96,15 @@
             android:layout_marginTop="15dp"
             android:text="@string/carrier_sms"/>
 
+        <EditText
+            android:id="@+id/edittext_code"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:maxLength="6"
+            android:inputType="number"
+            android:hint="@string/enter_code" />
+
     </LinearLayout>
 
     <Button

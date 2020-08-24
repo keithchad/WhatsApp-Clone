@@ -12,4 +12,5 @@
     <string name="countrycode_">+</string>
     <string name="carrier_sms">Carrier SMS charges may apply</string>
     <string name="next">Next</string>
+    <string name="enter_code">Enter Code</string>
 </resources>
