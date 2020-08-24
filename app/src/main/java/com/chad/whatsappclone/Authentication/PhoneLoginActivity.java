@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.chad.whatsappclone.Activity.MainActivity;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityPhoneLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,11 +66,13 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onClick(View v) {
                 if (binding.nextBtn.getText().toString().equals("Next")) {
+                    String phoneNumber = "+"+binding.edittextCountryCode.getText().toString()+binding.edittextPhonenumber.getText().toString();
 
-                    progressDialog.setMessage("Please Wait");
-                    String phoneNumer = binding.edittextPhonenumber.getText().toString();
-                    startPhoneNumberVerification(phoneNumer);
+
+                    startPhoneNumberVerification(phoneNumber);
                 }else {
+                    progressDialog.setMessage("Verifying...");
+                    progressDialog.show();
                     verifyPhoneNumberWithCode(mVerification, binding.edittextCode.getText().toString());
                 }
             }
@@ -78,6 +82,8 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                 Log.d(TAG, "signInWithCredential:Success");
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -93,19 +99,20 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                 // by combining the code with a verification ID.
                 Log.d(TAG, "onCodeSent:" + verificationId);
 
-                // Save verification ID and resending token so we can use them later
                 mVerification = verificationId;
                 mResendToken = token;
 
                 binding.nextBtn.setText("Confirm");
                 progressDialog.dismiss();
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
+
             }
         };
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
+
+        progressDialog.setMessage("Sending Code to: " +phoneNumber);
+        progressDialog.show();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber, //Phone Number to verify
                 60, //Timeout Duration
@@ -115,9 +122,9 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
     }
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
-        // [START verify_with_code]
+
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        // [END verify_with_code]
+
         signInWithPhoneAuthCredential(credential);
     }
 
@@ -129,21 +136,18 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
+                            progressDialog.dismiss();
                             FirebaseUser user = task.getResult().getUser();
+                            startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
 
                         } else {
+                            progressDialog.dismiss();
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                                 Log.d(TAG, "signInWithCredential:failure");
-
                             }
-                            // [START_EXCLUDE silent]
-                            // Update UI
-
-                            // [END_EXCLUDE]
                         }
                     }
                 });
