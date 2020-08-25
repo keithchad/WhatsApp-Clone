@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Authentication.PhoneLoginActivity"></activity>
+        <activity android:name=".Authentication.SetUserInfoActivity"></activity>
+        <activity android:name=".Authentication.PhoneLoginActivity" />
         <activity android:name=".Activity.WelcomeActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>

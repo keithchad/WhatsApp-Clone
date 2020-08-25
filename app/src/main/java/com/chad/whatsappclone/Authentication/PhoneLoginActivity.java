@@ -147,6 +147,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                                 Log.d(TAG, "signInWithCredential:failure");
+                                Toast.makeText(PhoneLoginActivity.this, "The Code Entered is incorrect!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

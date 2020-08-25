@@ -13,4 +13,7 @@
     <string name="carrier_sms">Carrier SMS charges may apply</string>
     <string name="next">Next</string>
     <string name="enter_code">Enter Code</string>
+    <string name="name">Name</string>
+    <string name="provide_your_name">Please provide your name and an optional profile photo</string>
+    <string name="profile_info">Profile Info</string>
 </resources>
