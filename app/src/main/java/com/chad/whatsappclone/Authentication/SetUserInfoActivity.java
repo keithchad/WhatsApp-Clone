@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.chad.whatsappclone.R;
+
 public class SetUserInfoActivity extends AppCompatActivity {
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.chad.whatsappclone.Activity.MainActivity;
+import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityPhoneLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,8 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
     String[] country = { "India", "USA", "China", "Japan", "Kenya", "Uganda", "SouthAfrica", "Tanzania", "Other"};
 
     private FirebaseAuth mAuth;
+    private FirebaseUser firebaseUser;
+   // private FirebaseFirestore firestore;
     private String mVerification;
 
 
@@ -61,6 +64,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         spin.setAdapter(arrayAdapter);
 
         mAuth = FirebaseAuth.getInstance();
+        //firestore = FirebaseFirestore.getInstance();
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +142,12 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                             Log.d(TAG, "signInWithCredential:success");
                             progressDialog.dismiss();
                             FirebaseUser user = task.getResult().getUser();
-                            startActivity(new Intent(PhoneLoginActivity.this, MainActivity.class));
+
+                            if (user != null) {
+                                String userID = user.getUid();
+                                User users = new User(userID,"",user.getPhoneNumber(),"","","");
+                            }
+                            // startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
 
                         } else {
                             progressDialog.dismiss();
