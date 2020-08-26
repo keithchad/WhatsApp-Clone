@@ -31,8 +31,6 @@
             android:contentDescription="@string/app_name"
             android:background="@android:color/transparent"/>
 
-
-
     </LinearLayout>
 
     <LinearLayout

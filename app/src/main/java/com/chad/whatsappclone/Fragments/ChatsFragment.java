@@ -22,7 +22,7 @@ import java.util.List;
 public class ChatsFragment extends Fragment {
 
     public ChatsFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
