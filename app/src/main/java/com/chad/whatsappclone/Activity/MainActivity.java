@@ -117,9 +117,25 @@ public class MainActivity extends AppCompatActivity {
          case R.id.menu_search:
              Toast.makeText(MainActivity.this, "Search Selected", Toast.LENGTH_LONG).show();
             return true;
-         case R.id.action_more:
-             Toast.makeText(MainActivity.this, "More Selected", Toast.LENGTH_LONG).show();
-             return true;
+//         case R.id.action_more:
+//             Toast.makeText(MainActivity.this, "More Selected", Toast.LENGTH_LONG).show();
+//             return true;
+         case R.id.action_new_group:
+              Toast.makeText(MainActivity.this, "New Group Selected", Toast.LENGTH_LONG).show();
+              return true;
+         case R.id.action_new_brodcast:
+                Toast.makeText(MainActivity.this, "New brodcast Selected", Toast.LENGTH_LONG).show();
+                return true;
+         case R.id.action_wa_web:
+              Toast.makeText(MainActivity.this, "WhatsApp Web Selected", Toast.LENGTH_LONG).show();
+              return true;
+         case R.id.action_starred_messages:
+              Toast.makeText(MainActivity.this, "Starred Messages Selected", Toast.LENGTH_LONG).show();
+              return true;
+         case R.id.action_settings:
+              Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_LONG).show();
+              return true;
+
 
         }
         return  super.onOptionsItemSelected(item);
