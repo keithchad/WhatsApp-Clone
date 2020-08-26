@@ -22,4 +22,8 @@
     <string name="starred_messages">Starred messages</string>
     <string name="settings">Settings</string>
     <string name="search">Search</string>
+    <string name="invite_your_friends">Invite Your Friends</string>
+    <string name="none_of_your_contacts">None of your contacts are using WhatsApp.\nUse the Button below to invite them.</string>
+    <string name="invite_a_friend">Invite a Friend</string>
+    <string name="chat_with_your_friends_who">Chat with your friends who use WhatsApp on Iphone,\n Android, KaiOS phone</string>
 </resources>
