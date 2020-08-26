@@ -117,14 +117,12 @@ public class MainActivity extends AppCompatActivity {
          case R.id.menu_search:
              Toast.makeText(MainActivity.this, "Search Selected", Toast.LENGTH_LONG).show();
             return true;
-         case R.id.menu_more:
+         case R.id.action_more:
              Toast.makeText(MainActivity.this, "More Selected", Toast.LENGTH_LONG).show();
              return true;
 
-         default:
-            return false;
-
         }
+        return  super.onOptionsItemSelected(item);
     }
 
     private void changeFabIcon(final int index) {
@@ -149,8 +147,5 @@ public class MainActivity extends AppCompatActivity {
                 binding.fabAction.show();
             }
         }, 400);
-
-
-
     }
 }

@@ -5,12 +5,32 @@
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/search"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/menu_more"
-        android:icon="@drawable/ic_more"
-        android:title="More"
-        app:showAsAction="always"/>
+    <group
+        android:id="@+id/action_more">
+        <item
+            android:id="@+id/action_new_group"
+            android:title="@string/new_group"/>
+
+        <item
+            android:id="@+id/action_new_brodcast"
+            android:title="@string/new_brodcast"/>
+
+        <item
+            android:id="@+id/action_wa_web"
+            android:title="@string/whatsapp_web"/>
+
+        <item
+            android:id="@+id/action_starred_messages"
+            android:title="@string/starred_messages"/>
+
+        <item
+            android:id="@+id/action_settings"
+            android:title="@string/settings"/>
+
+    </group>
+
+
 </menu>
