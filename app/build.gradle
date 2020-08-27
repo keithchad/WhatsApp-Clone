@@ -9,6 +9,7 @@ android {
         applicationId "com.chad.whatsappclone"
         minSdkVersion 16
         targetSdkVersion 29
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
 
@@ -37,6 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-firestore:17.1.2'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'

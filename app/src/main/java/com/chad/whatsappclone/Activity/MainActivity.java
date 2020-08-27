@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import com.chad.whatsappclone.Fragments.CallsFragment;
 import com.chad.whatsappclone.Fragments.ChatsFragment;
 import com.chad.whatsappclone.Fragments.StatusFragment;
 import com.chad.whatsappclone.R;
+import com.chad.whatsappclone.Settings.SettingsActivity;
 import com.chad.whatsappclone.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -133,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
               Toast.makeText(MainActivity.this, "Starred Messages Selected", Toast.LENGTH_LONG).show();
               return true;
          case R.id.action_settings:
-              Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_LONG).show();
+              //Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_LONG).show();
+             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
               return true;
 
 

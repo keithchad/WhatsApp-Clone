@@ -26,4 +26,18 @@
     <string name="none_of_your_contacts">None of your contacts are using WhatsApp.\nUse the Button below to invite them.</string>
     <string name="invite_a_friend">Invite a Friend</string>
     <string name="chat_with_your_friends_who">Chat with your friends who use WhatsApp on Iphone,\n Android, KaiOS phone</string>
+    <string name="username">Username</string>
+    <string name="using_whatsapp">Hey there! I am using WhatsApp</string>
+    <string name="privacy_security_change_number">Privacy, security, change number</string>
+    <string name="account">Account</string>
+    <string name="chats">Chats</string>
+    <string name="theme_wallpapers_chat_history">Theme, wallpapers, chat history</string>
+    <string name="notifications">Notifications</string>
+    <string name="message_group_amp_call_tones"><![CDATA[Message, group & call tones]]></string>
+    <string name="network_usage_auto_download">Network usage, auto-download</string>
+    <string name="data_and_storage_usage">Data and storage usage</string>
+    <string name="help">Help</string>
+    <string name="faq_contact_us_privacy_policy">FAQ, contact us, privacy policy</string>
+    <string name="from">from</string>
+    <string name="f_a_c_e_b_o_o_k">F A C E B O O K</string>
 </resources>

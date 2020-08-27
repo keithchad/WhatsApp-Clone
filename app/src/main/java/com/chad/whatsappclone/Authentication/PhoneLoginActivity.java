@@ -1,6 +1,7 @@
 package com.chad.whatsappclone.Authentication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityPhoneLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +42,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
 
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-   // private FirebaseFirestore firestore;
+    private FirebaseFirestore firestore;
     private String mVerification;
 
 
@@ -62,7 +67,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         spin.setAdapter(arrayAdapter);
 
         mAuth = FirebaseAuth.getInstance();
-        //firestore = FirebaseFirestore.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +145,24 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                             if (user != null) {
                                 String userID = user.getUid();
                                 User users = new User(userID,"",user.getPhoneNumber(),"","","");
+
+                                firestore.collection("Users").document("UserInfo").collection(userID)
+                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                         startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }else {
+                                Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
                             }
-                            // startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
+
 
                         } else {
                             progressDialog.dismiss();
