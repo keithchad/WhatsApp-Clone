@@ -40,4 +40,11 @@
     <string name="faq_contact_us_privacy_policy">FAQ, contact us, privacy policy</string>
     <string name="from">from</string>
     <string name="f_a_c_e_b_o_o_k">F A C E B O O K</string>
+    <string name="this_is_not_your_username_or_pin">This is not your username or pin. This name will be visible to your WhatsApp contacts.</string>
+    <string name="about">About</string>
+    <string name="phone">Phone</string>
+    <string name="dummy_phonenumber">+254 100358957</string>
+    <string name="profile_photo">Profile Photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
 </resources>
