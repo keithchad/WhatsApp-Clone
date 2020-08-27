@@ -141,29 +141,27 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                             Toast.makeText(PhoneLoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                             FirebaseUser user = task.getResult().getUser();
-
-                            if (user != null) {
-                                String userID = user.getUid();
-                                User users = new User(userID,"",user.getPhoneNumber(),"","","");
-
-                                firestore.collection("Users").document("UserInfo").collection(userID)
-                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                         startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                            }else {
-                                Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-                            }
-
-
+                            startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
+//                            if (user != null) {
+//                                String userID = user.getUid();
+//                                User users = new User(userID,"",user.getPhoneNumber(),"","","");
+//
+//                                firestore.collection("Users").document("UserInfo").collection(userID)
+//                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                    @Override
+//                                    public void onSuccess(DocumentReference documentReference) {
+//                                         startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//
+//                            }else {
+//                                Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+//                            }
                         } else {
                             progressDialog.dismiss();
                             // Sign in failed, display a message and update the UI

@@ -1,5 +1,6 @@
 package com.chad.whatsappclone.Authentication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -11,8 +12,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chad.whatsappclone.Activity.MainActivity;
+import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivitySetUserInfoBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,7 +69,11 @@ public class SetUserInfoActivity extends AppCompatActivity {
 
 
         if(firebaseUser != null) {
-            firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("userName", binding.edittextName.getText().toString())
+            String userID = firebaseUser.getUid();
+            String username = binding.edittextName.getText().toString();
+            User users = new User(userID,username,firebaseUser.getPhoneNumber(),"","","");
+
+            firebaseFirestore.collection("Users").document(firebaseUser.getUid()).set(users)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -74,7 +81,12 @@ public class SetUserInfoActivity extends AppCompatActivity {
                             Toast.makeText(SetUserInfoActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SetUserInfoActivity.this, MainActivity.class));
                         }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SetUserInfoActivity.this, "Update failed!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }else {
             progressDialog.dismiss();
             Toast.makeText(this, "You need to login First", Toast.LENGTH_SHORT).show();
