@@ -1,14 +1,15 @@
 package com.chad.whatsappclone.Activity;
 
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -17,17 +18,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityProfileBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.Objects;
+import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -35,11 +41,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
 
-    private BottomSheetDialog bottomSheetDialog;
+    private BottomSheetDialog bottomSheetDialogPickImage;
+    private BottomSheetDialog bottomSheetDialogEditName;
+    private ProgressDialog progressDialog;
 
     private static int REQUEST_CODE_GALLERY = 111;
-    private Uri uri;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+
+        progressDialog = new ProgressDialog(this);
+
         if(firebaseUser != null) {
             getInfo();
         }
@@ -58,29 +71,91 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void bottomSheetPickImage() {
 
+        binding.layoutName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialogEditName = new BottomSheetDialog(
+                        ProfileActivity.this, R.style.BottomSheetDialogTheme
+                );
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_editname, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+
+                final EditText changedUsername = view.findViewById(R.id.edittext_username);
+
+                view.findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(TextUtils.isEmpty(changedUsername.getText().toString())) {
+                            Toast.makeText(ProfileActivity.this, "Name can't be Empty!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            updateName(changedUsername.getText().toString());
+                            bottomSheetDialogEditName.dismiss();
+                        }
+                    }
+                });
+                view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialogEditName.dismiss();
+                    }
+                });
+                bottomSheetDialogEditName.setContentView(view);
+                bottomSheetDialogEditName.show();
+            }
+        });
+
         binding.fabCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetDialog = new BottomSheetDialog(
+                bottomSheetDialogPickImage = new BottomSheetDialog(
                         ProfileActivity.this, R.style.BottomSheetDialogTheme
                 );
-                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottom_sheet_pick, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_pickimage, (LinearLayout)findViewById(R.id.bottomSheetContainer));
                 view.findViewById(R.id.layout_gallery).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                        openGallery();
-                        bottomSheetDialog.dismiss();
+                        bottomSheetDialogPickImage.dismiss();
                     }
                 });
                 view.findViewById(R.id.layout_camera).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(ProfileActivity.this, "Camera Clicked", Toast.LENGTH_SHORT).show();
-                        bottomSheetDialog.dismiss();
+                        bottomSheetDialogPickImage.dismiss();
                     }
                 });
-                bottomSheetDialog.setContentView(view);
-                bottomSheetDialog.show();
+                bottomSheetDialogPickImage.setContentView(view);
+                bottomSheetDialogPickImage.show();
+            }
+        });
+
+        binding.signoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogSignOut();
+            }
+        });
+
+    }
+
+    private void showDialogSignOut() {
+
+
+
+    }
+
+    private void updateName(String changedName) {
+
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("userName", changedName).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ProfileActivity.this, "Updated Succefully!", Toast.LENGTH_SHORT).show();
+                getInfo();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,9 +179,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                         String userName = String.valueOf(documentSnapshot.get("userName"));
                         String phoneNumber = String.valueOf(documentSnapshot.get("userPhone"));
+                        String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
 
                         binding.userNameText.setText(userName);
                         binding.phoneNumberText.setText(phoneNumber);
+                        Glide.with(ProfileActivity.this).load(imageProfile).into(binding.imageProfile);
 
 
                     }
@@ -124,6 +201,65 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+
+            uploadToFirebase();
+
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+//                binding.imageProfile.setImageBitmap(bitmap);
+//            }catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }
+
+    }
+
+    private String getFileExtension(Uri uri) {
+
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
+    }
+
+    private void uploadToFirebase() {
+
+        if(imageUri != null) {
+            progressDialog.setMessage("Please Wait");
+            progressDialog.show();
+            StorageReference storageReference = firebaseStorage.getReference().child("Profile Images/" + System.currentTimeMillis()+"."+getFileExtension(imageUri));
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while(!urlTask.isSuccessful());
+                    Uri downloadUrl = urlTask.getResult();
+
+                    final String storageDownloadUrl = String.valueOf(downloadUrl);
+
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("imageProfile", storageDownloadUrl);
+                    progressDialog.dismiss();
+                    firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(ProfileActivity.this, "Uploaded Successfully!", Toast.LENGTH_SHORT).show();
+                            getInfo();
+
+                        }
+                    });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(ProfileActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
         }
 
