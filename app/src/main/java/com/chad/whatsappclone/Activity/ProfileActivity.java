@@ -1,12 +1,10 @@
 package com.chad.whatsappclone.Activity;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -212,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-
+                    FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(ProfileActivity.this, SplashActivity.class));
 
                 }

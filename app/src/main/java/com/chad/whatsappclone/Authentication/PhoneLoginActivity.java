@@ -1,13 +1,12 @@
 package com.chad.whatsappclone.Authentication;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,42 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityPhoneLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
 public class PhoneLoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private static final String TAG = "PhoneLoginActivity";
     private ActivityPhoneLoginBinding binding;
     String[] country = { "Kenya", "Uganda", "Tanzania", "Japan", "USA", "India", "UK", "Australia", "Other"};
 
     private FirebaseAuth mAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseFirestore firestore;
     private String mVerification;
-
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     private ProgressDialog progressDialog;
-    private Button btnNext;
-
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +44,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_login);
 
         Spinner spin = findViewById(R.id.country_spinner);
-        btnNext = findViewById(R.id.next_btn);
         progressDialog = new ProgressDialog(this);
         spin.setOnItemSelectedListener(this);
 
@@ -67,7 +52,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         spin.setAdapter(arrayAdapter);
 
         mAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +70,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-              //  Log.d(TAG, "signInWithCredential:Success");
                 Toast.makeText(PhoneLoginActivity.this, "Verified!", Toast.LENGTH_SHORT).show();
                 signInWithPhoneAuthCredential(phoneAuthCredential);
                 progressDialog.dismiss();
@@ -95,15 +78,14 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 Toast.makeText(PhoneLoginActivity.this, "Verification Failed!Please try again Later ", Toast.LENGTH_SHORT).show();
-               // Log.d(TAG, "onVerificationFailed:Success: "+e.getMessage());
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onCodeSent(@NonNull String verificationId,
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                //Log.d(TAG, "onCodeSent:" + verificationId);
+
                 mVerification = verificationId;
-                mResendToken = token;
 
                 binding.nextBtn.setText("Confirm");
                 progressDialog.dismiss();
@@ -136,39 +118,15 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(PhoneLoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                            FirebaseUser user = task.getResult().getUser();
+
                             startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
-//                            if (user != null) {
-//                                String userID = user.getUid();
-//                                User users = new User(userID,"",user.getPhoneNumber(),"","","");
-//
-//                                firestore.collection("Users").document("UserInfo").collection(userID)
-//                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                    @Override
-//                                    public void onSuccess(DocumentReference documentReference) {
-//                                         startActivity(new Intent(PhoneLoginActivity.this, SetUserInfoActivity.class));
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//
-//                            }else {
-//                                Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-//                            }
+
                         } else {
+                            Toast.makeText(PhoneLoginActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                            // Sign in failed, display a message and update the UI
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                               // Log.d(TAG, "signInWithCredential:failure");
                                 Toast.makeText(PhoneLoginActivity.this, "The Code Entered is incorrect!", Toast.LENGTH_SHORT).show();
                             }
                         }
