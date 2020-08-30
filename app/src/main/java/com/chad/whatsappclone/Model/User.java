@@ -13,7 +13,7 @@ public class User {
     private User() {
     }
 
-    public User(String userID, String userName, String userPhone, String imageProfile, String status, String bio, String about) {
+    public User(String userID, String userName, String userPhone, String imageProfile, String status, String about) {
         this.userID = userID;
         this.userName = userName;
         this.userPhone = userPhone;

@@ -50,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private BottomSheetDialog bottomSheetDialogPickImage;
     private BottomSheetDialog bottomSheetDialogEditName;
+    private BottomSheetDialog bottomSheetDialogEditAbout;
     private ProgressDialog progressDialog;
     private AlertDialog dialogSignOut;
 
@@ -71,11 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
             getInfo();
         }
 
-        bottomSheetPickImage();
+        bottomSheetPickAboutUsername();
 
     }
 
-    private void bottomSheetPickImage() {
+    private void bottomSheetPickAboutUsername() {
 
         binding.layoutName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +143,56 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        binding.layoutAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialogEditAbout = new BottomSheetDialog(
+                        ProfileActivity.this, R.style.BottomSheetDialogTheme
+                );
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_about, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+
+                final EditText changedAbout = view.findViewById(R.id.edittext_about);
+
+                view.findViewById(R.id.about_save_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(TextUtils.isEmpty(changedAbout.getText().toString())) {
+                            Toast.makeText(ProfileActivity.this, "About can't be Empty!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            updateAbout(changedAbout.getText().toString());
+                            bottomSheetDialogEditAbout.dismiss();
+                        }
+                        bottomSheetDialogEditAbout.dismiss();
+                    }
+                });
+                view.findViewById(R.id.about_cancel_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialogEditAbout.dismiss();
+                    }
+                });
+                bottomSheetDialogEditAbout.setContentView(view);
+                bottomSheetDialogEditAbout.show();
+            }
+        });
+
+    }
+
+    private void updateAbout(String updateAbout) {
+
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("about", updateAbout).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(ProfileActivity.this, "Updated Succefully!", Toast.LENGTH_SHORT).show();
+                getInfo();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void showDialogSignOut() {
@@ -157,9 +208,12 @@ public class ProfileActivity extends AppCompatActivity {
                 dialogSignOut.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             }
 
-            view.findViewById(R.id.textDeleteNote).setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.textSignOut).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+                    startActivity(new Intent(ProfileActivity.this, SplashActivity.class));
 
                 }
             });

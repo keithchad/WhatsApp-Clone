@@ -124,6 +124,7 @@
             android:background="#D5D5D5" />
 
         <LinearLayout
+            android:id="@+id/layout_about"
             android:layout_width="match_parent"
             android:padding="15dp"
             android:layout_height="wrap_content"

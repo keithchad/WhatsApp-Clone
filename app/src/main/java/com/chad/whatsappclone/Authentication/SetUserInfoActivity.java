@@ -34,11 +34,11 @@ public class SetUserInfoActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
-        buttonClick();
+        nextButtonClicked();
 
     }
 
-    private void buttonClick() {
+    private void nextButtonClicked() {
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +71,7 @@ public class SetUserInfoActivity extends AppCompatActivity {
         if(firebaseUser != null) {
             String userID = firebaseUser.getUid();
             String username = binding.edittextName.getText().toString();
-            User users = new User(userID,username,firebaseUser.getPhoneNumber(),"","","");
+            User users = new User(userID,username,firebaseUser.getPhoneNumber(),"","","Hey there! I am using WhatsApp");
 
             firebaseFirestore.collection("Users").document(firebaseUser.getUid()).set(users)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
