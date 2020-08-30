@@ -52,5 +52,6 @@
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="log_out">LOG OUT</string>
+    <string name="are_you_sure">Are you sure?</string>
     <string name="sign_out">SIGN OUT</string>
 </resources>

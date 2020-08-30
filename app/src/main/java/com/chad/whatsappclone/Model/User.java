@@ -7,18 +7,27 @@ public class User {
     private String userPhone;
     private String imageProfile;
     private String status;
-    private String bio;
+    private String about;
+
 
     private User() {
     }
 
-    public User(String userID, String userName, String userPhone, String imageProfile, String status, String bio) {
+    public User(String userID, String userName, String userPhone, String imageProfile, String status, String bio, String about) {
         this.userID = userID;
         this.userName = userName;
         this.userPhone = userPhone;
         this.imageProfile = imageProfile;
         this.status = status;
-        this.bio = bio;
+        this.about = about;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public String getUserID() {
@@ -61,11 +70,4 @@ public class User {
         this.status = status;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
 }
