@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.chad.whatsappclone.Fragments.CallsFragment;
@@ -153,6 +154,12 @@ public class MainActivity extends AppCompatActivity {
                 switch(index) {
                     case 0:
                         binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
+                            binding.fabAction.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+                                }
+                            });
                         break;
                     case 1:
                         binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));

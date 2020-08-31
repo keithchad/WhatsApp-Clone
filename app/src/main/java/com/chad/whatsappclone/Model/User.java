@@ -10,7 +10,7 @@ public class User {
     private String about;
 
 
-    private User() {
+    public User() {
     }
 
     public User(String userID, String userName, String userPhone, String imageProfile, String status, String about) {
