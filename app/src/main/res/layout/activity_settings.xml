@@ -63,9 +63,10 @@
 <!--                        android:text="@string/username"/>-->
 
                     <TextView
+                        android:id="@+id/about_text"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/using_whatsapp"/>
+                        android:layout_height="wrap_content"/>
+<!--                        android:text="@string/using_whatsapp"/>-->
 
 
                 </LinearLayout>

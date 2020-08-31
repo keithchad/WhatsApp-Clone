@@ -60,8 +60,10 @@ public class SettingsActivity extends AppCompatActivity {
 
                         String userName = String.valueOf(documentSnapshot.get("userName"));
                         String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
+                        String about = String.valueOf(documentSnapshot.get("about"));
 
                         binding.userName.setText(userName);
+                        binding.aboutText.setText(about);
                         Glide.with(SettingsActivity.this).load(imageProfile).into(binding.imageProfile);
 
                     }

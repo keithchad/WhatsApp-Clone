@@ -263,9 +263,12 @@ public class ProfileActivity extends AppCompatActivity {
                         String userName = String.valueOf(documentSnapshot.get("userName"));
                         String phoneNumber = String.valueOf(documentSnapshot.get("userPhone"));
                         String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
+                        String about = String.valueOf(documentSnapshot.get("about"));
+
 
                         binding.userNameText.setText(userName);
                         binding.phoneNumberText.setText(phoneNumber);
+                        binding.aboutText.setText(about);
                         Glide.with(ProfileActivity.this).load(imageProfile).into(binding.imageProfile);
 
 

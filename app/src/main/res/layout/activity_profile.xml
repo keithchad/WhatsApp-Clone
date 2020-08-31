@@ -86,7 +86,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:textColor="#292727"
+                        android:textColor="#504F4F"
                         android:text="@string/name"/>
 
                     <ImageButton
@@ -104,8 +104,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="@string/username"/>
+                    android:textColor="@android:color/black"/>
+<!--                    android:text="@string/username"/>-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:textColor="#292727"
+                        android:textColor="#504F4F"
                         android:text="@string/about"/>
 
                     <ImageButton
@@ -173,8 +173,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="@string/using_whatsapp"/>
+                    android:textColor="@android:color/black"/>
+<!--                    android:text="@string/using_whatsapp"/>-->
 
             </LinearLayout>
 
@@ -216,7 +216,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:textColor="#292727"
+                        android:textColor="#504F4F"
                         android:text="@string/phone"/>
 
                 </LinearLayout>
@@ -227,8 +227,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="@string/dummy_phonenumber"/>
+                    android:textColor="@android:color/black"/>
+<!--                    android:text="@string/dummy_phonenumber"/>-->
 
             </LinearLayout>
 

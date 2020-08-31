@@ -48,8 +48,8 @@
     <string name="camera">Camera</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="hint_your_name">your name</string>
-    <string name="cancel">CANCEL</string>
-    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL&#10060;</string>
+    <string name="save">SAVE &#10004;</string>
     <string name="log_out">LOG OUT</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="sign_out">SIGN OUT</string>
