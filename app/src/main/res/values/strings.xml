@@ -54,4 +54,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="sign_out">SIGN OUT</string>
     <string name="add_about">Add About</string>
+    <string name="last_seen">last seen today at 1:50 PM</string>
+    <string name="type_a_message">Type a message</string>
 </resources>

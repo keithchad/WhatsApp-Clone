@@ -3,7 +3,9 @@ package com.chad.whatsappclone.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,9 +21,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.chad.whatsappclone.Constants.Constants;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityProfileBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,6 +75,23 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         bottomSheetPickAboutUsername();
+        binding();
+
+    }
+
+    private void binding() {
+
+         binding.imageProfile.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                binding.imageProfile.invalidate();
+                 Drawable drawable = binding.imageProfile.getDrawable();
+                 Constants.IMAGE_BITMAP = ((BitmapDrawable)drawable.getCurrent()).getBitmap();
+                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ProfileActivity.this, binding.imageProfile, "image");
+                 Intent intent = new Intent(ProfileActivity.this, ProfileImageViewActivity.class);
+                 startActivity(intent, activityOptionsCompat.toBundle());
+             }
+         });
 
     }
 

@@ -26,8 +26,11 @@ import java.util.List;
 public class ContactsActivity extends AppCompatActivity {
 
     private ActivityContactsBinding binding;
+
     private List<User> list = new ArrayList<>();
+
     private ContactsAdapter contactsAdapter;
+
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
 
