@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@android:color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
                 android:layout_alignEnd="@id/profile_image"
                 android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_add_circle"
-                android:layout_alignRight="@id/profile_image" />
+                android:layout_alignRight="@id/profile_image"
+                android:contentDescription="@string/app_name" />
 
         </RelativeLayout>
 
@@ -59,7 +61,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="My Status"
+                    android:text="@string/my_status"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"/>
@@ -72,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#2E2E2E"
-                android:text="Tap to add Status"/>
+                android:text="@string/tap_to_add_status_update"/>
 
 
         </LinearLayout>
@@ -83,3 +85,4 @@
 
 
 </LinearLayout>
+</layout>
