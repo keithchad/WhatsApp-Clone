@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Model.Call;
-import com.chad.whatsappclone.Model.Chat;
 import com.chad.whatsappclone.R;
 
 import java.util.List;
@@ -66,7 +65,7 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.Holder>  {
         return list.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends RecyclerView.ViewHolder {
 
         private TextView tvName, tvDate;
         private CircleImageView profile;

@@ -11,7 +11,7 @@ import com.chad.whatsappclone.databinding.ActivityProfileImageViewBinding;
 
 public class ProfileImageViewActivity extends AppCompatActivity {
 
-    private ActivityProfileImageViewBinding binding;
+    ActivityProfileImageViewBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

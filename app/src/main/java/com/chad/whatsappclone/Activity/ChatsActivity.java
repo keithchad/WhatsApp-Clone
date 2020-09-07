@@ -13,7 +13,7 @@ import com.chad.whatsappclone.databinding.ActivityChatsBinding;
 
 public class ChatsActivity extends AppCompatActivity {
 
-    private ActivityChatsBinding binding;
+    ActivityChatsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
