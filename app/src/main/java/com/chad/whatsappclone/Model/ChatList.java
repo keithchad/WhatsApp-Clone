@@ -1,6 +1,6 @@
 package com.chad.whatsappclone.Model;
 
-public class Chat {
+public class ChatList {
 
     private String userID;
     private String userName;
@@ -8,10 +8,10 @@ public class Chat {
     private String date;
     private String urlProfile;
 
-    public Chat() {
+    public ChatList() {
     }
 
-    public Chat(String userID, String userName, String description, String date, String urlProfile) {
+    public ChatList(String userID, String userName, String description, String date, String urlProfile) {
         this.userID = userID;
         this.userName = userName;
         this.description = description;

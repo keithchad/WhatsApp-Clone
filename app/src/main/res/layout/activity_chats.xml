@@ -101,6 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_above="@id/message_layout"
         android:background="#EDEDED" />
 
     <LinearLayout
@@ -178,7 +179,7 @@
         </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/voice_button"
+        android:id="@+id/send_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:tint="@android:color/white"

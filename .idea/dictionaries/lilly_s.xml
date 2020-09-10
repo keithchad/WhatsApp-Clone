@@ -3,12 +3,15 @@
     <words>
       <w>bottomsheet</w>
       <w>brodcast</w>
+      <w>chatid</w>
       <w>countrycode</w>
       <w>edittext</w>
       <w>emoji</w>
       <w>lastseen</w>
       <w>phonenumber</w>
       <w>signout</w>
+      <w>textmessage</w>
+      <w>textview</w>
       <w>videocam</w>
       <w>whatsapp</w>
       <w>whatsappclone</w>

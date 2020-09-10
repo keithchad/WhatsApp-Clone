@@ -10,19 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.chad.whatsappclone.Model.Chat;
+import com.chad.whatsappclone.Model.ChatList;
 import com.chad.whatsappclone.R;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder>  {
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder>  {
 
-    private List<Chat> list;
+    private List<ChatList> list;
     private Context context;
 
-    public ChatAdapter(List<Chat> list, Context context) {
+    public ChatListAdapter(List<ChatList> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -37,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder>  {
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
 
-        Chat chatList = list.get(position);
+        ChatList chatList = list.get(position);
 
         holder.tvName.setText(chatList.getUserName());
         holder.tvDesc.setText(chatList.getDescription());
