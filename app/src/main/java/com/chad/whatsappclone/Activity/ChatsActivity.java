@@ -64,7 +64,13 @@ public class ChatsActivity extends AppCompatActivity {
 
         if(receiverID != null) {
             binding.chatUsername.setText(userName);
-            Glide.with(this).load(userProfile).into(binding.imageProfile);
+            if (userProfile != null) {
+                if(userProfile.equals("")) {
+                   binding.imageProfile.setImageResource(R.drawable.profile_image);
+                }else {
+                    Glide.with(this).load(userProfile).into(binding.imageProfile);
+                }
+            }
         }
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {

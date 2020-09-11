@@ -1,6 +1,7 @@
 package com.chad.whatsappclone.Fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,14 +47,23 @@ public class ChatsFragment extends Fragment {
     private DatabaseReference reference;
     private FirebaseFirestore firebaseFirestore;
 
+    private Handler handler = new Handler();
+
     private List<ChatList> list;
+    private ArrayList<String> allUserID;
+    private ChatListAdapter chatListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)  {
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_chats, container, false);
 
+        list = new ArrayList<>();
+        allUserID = new ArrayList<>();
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        chatListAdapter = new ChatListAdapter(list, getContext());
+        binding.recyclerView.setAdapter(chatListAdapter);
 //        List<Chat> list = new ArrayList<>();
 
 //        list.add(new Chat("11","John Doe","Hello Homie!","20/08/2020","data:image/jpeg;base64,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"));
@@ -73,7 +83,7 @@ public class ChatsFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        list = new ArrayList<>();
+
 
         if(firebaseUser != null) {
             getChatList();
@@ -84,19 +94,21 @@ public class ChatsFragment extends Fragment {
 
     private void getChatList() {
         binding.progressBar.setVisibility(View.VISIBLE);
+        list.clear();
+        allUserID.clear();
         reference.child("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                allUserID.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String userId = snapshot.child("chatid").getValue().toString();
-                    Log.d(TAG, "onDataChange: userid" +userId);
+                    String userID = snapshot.child("chatid").getValue().toString();
+                    Log.d(TAG, "onDataChange: userid" +userID);
 
                     binding.progressBar.setVisibility(View.GONE);
-
-                    getUserData(userId);
+                    allUserID.add(userID);
                 }
-                binding.recyclerView.setAdapter(new ChatListAdapter(list, getContext()));
+               getUserData();
             }
 
             @Override
@@ -107,27 +119,37 @@ public class ChatsFragment extends Fragment {
 
     }
 
-    private void getUserData(String userId) {
+    private void getUserData() {
 
-        firebaseFirestore.collection("Users").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        handler.post(new Runnable() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                ChatList chat = new ChatList(
-                        documentSnapshot.getString("userID"),
-                        documentSnapshot.getString("userName"),
-                        "Hello there!",
-                        "",
-                        documentSnapshot.getString("imageProfile")
-                );
-                list.add(chat);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "OnFailure: "+e.getMessage());
+            public void run() {
+                for(String userID : allUserID) {
+                    firebaseFirestore.collection("Users").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            ChatList chat = new ChatList(
+                                    documentSnapshot.getString("userID"),
+                                    documentSnapshot.getString("userName"),
+                                    "Hello there!",
+                                    "",
+                                    documentSnapshot.getString("imageProfile")
+                            );
+                            list.add(chat);
+                            if(chatListAdapter != null) {
+                                chatListAdapter.notifyItemInserted(0);
+                                chatListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "OnFailure: "+e.getMessage());
+                        }
+                    });
+                }
             }
         });
-
     }
 
 }
