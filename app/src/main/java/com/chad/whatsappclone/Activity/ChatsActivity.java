@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Adapter.ChatsAdapter;
@@ -39,6 +40,7 @@ import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
 
+    private static final String TAG = "ChatsActivity";
     ActivityChatsBinding binding;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
@@ -100,7 +102,7 @@ public class ChatsActivity extends AppCompatActivity {
         initBtnClick();
 
         list = new ArrayList<>();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         layoutManager.setStackFromEnd(true);
         binding.recyclerView.setLayoutManager(layoutManager);
 
@@ -172,13 +174,16 @@ public class ChatsActivity extends AppCompatActivity {
                     list.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Chats chats = snapshot.getValue(Chats.class);
-                        if(chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)) {
+                        if (chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)
+                            || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receiverID)
+                        ) {
                             list.add(chats);
+                            Log.e(TAG, "onDataChange : Username :"+chats.getTextMessage());
                         }
                     }
                     if (chatsAdapter != null) {
                         chatsAdapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         chatsAdapter = new ChatsAdapter(list, ChatsActivity.this);
                         binding.recyclerView.setAdapter(chatsAdapter);
                     }
@@ -186,11 +191,11 @@ public class ChatsActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(ChatsActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
                 }
             });
         }catch (Exception e) {
-            e.printStackTrace();
+            Toast.makeText(ChatsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

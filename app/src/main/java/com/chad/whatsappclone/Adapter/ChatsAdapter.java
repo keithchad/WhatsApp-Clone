@@ -36,8 +36,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             View view = LayoutInflater.from(context).inflate(R.layout.chat_item_left, parent, false);
             return new ViewHolder(view);
         }else {
-            View view = LayoutInflater.from(context).inflate(R.layout.chat_item_right, parent, false);
-            return new ViewHolder(view);
+            View view1 = LayoutInflater.from(context).inflate(R.layout.chat_item_right, parent, false);
+            return new ViewHolder(view1);
         }
     }
 
@@ -57,9 +57,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             textMessage = itemView.findViewById(R.id.textview_textmessage);
-
         }
 
         void bind(Chats chats) {
