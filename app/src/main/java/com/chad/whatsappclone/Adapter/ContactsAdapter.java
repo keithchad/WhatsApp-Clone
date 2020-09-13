@@ -54,7 +54,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 context.startActivity(new Intent(context, ChatsActivity.class)
                         .putExtra("userID", user.getUserID())
                         .putExtra("userName", user.getUserName())
-                        .putExtra("userProfile", user.getImageProfile()));
+                        .putExtra("userProfile", user.getImageProfile())
+                        .putExtra("about", user.getAbout()));
             }
         });
 
