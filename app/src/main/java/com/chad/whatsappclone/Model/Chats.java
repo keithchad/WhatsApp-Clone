@@ -4,6 +4,7 @@ public class Chats {
 
     private String dateTime;
     private String textMessage;
+    private String url;
     private String type;
     private String sender;
     private String receiver;
@@ -11,12 +12,13 @@ public class Chats {
     public Chats() {
     }
 
-    public Chats(String dateTime, String textMessage, String type, String sender, String receiver) {
+    public Chats(String dateTime, String textMessage, String type, String sender, String receiver, String url) {
         this.dateTime = dateTime;
         this.textMessage = textMessage;
         this.type = type;
         this.sender = sender;
         this.receiver = receiver;
+        this.url = url;
     }
 
     public String getDateTime() {
@@ -57,5 +59,13 @@ public class Chats {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

@@ -8,10 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,11 +24,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Adapter.ChatsAdapter;
+import com.chad.whatsappclone.Constants.DialogReviewSendImage;
 import com.chad.whatsappclone.Interface.OnReadChatCallBack;
 import com.chad.whatsappclone.Manager.ChatService;
 import com.chad.whatsappclone.Model.Chats;
 import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
+import com.chad.whatsappclone.Service.FirebaseService;
 import com.chad.whatsappclone.databinding.ActivityChatsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -228,15 +233,40 @@ public class ChatsActivity extends AppCompatActivity {
 
             //uploadToFirebase();
 
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-//                binding.imageProfile.setImageBitmap(bitmap);
-//            }catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+                reviewImage(bitmap);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 //
     }
+
+    private void reviewImage(Bitmap bitmap) {
+        new DialogReviewSendImage(ChatsActivity.this, bitmap).show(new DialogReviewSendImage.OnCallBack() {
+            @Override
+            public void onButtonSendClick() {
+                 final ProgressDialog progressDialog = new ProgressDialog(ChatsActivity.this);
+                 progressDialog.setMessage("Sending Image!");
+                if(imageUri != null) {
+                    new FirebaseService(ChatsActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.onCallBack() {
+                        @Override
+                        public void onUploadSuccess(String imageUrl) {
+                            chatService.sendImage(imageUrl);
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onUploadFailed(Exception e) {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 
 //    private void sendTextMessage(String text) {
 //

@@ -68,17 +68,10 @@ public class ChatService {
 
     public  void sendTextMessage(String text) {
 
-        Date date = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String today = formatter.format(date);
-
-        Calendar currentDateTime = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-        String currentTime = dateFormat.format(currentDateTime.getTime());
-
         Chats chats = new Chats(
-                today+", "+currentTime,
+                getCurrentDate(),
                 text,
+                "",
                 "TEXT",
                 firebaseUser.getUid(),
                 receiverID
@@ -106,9 +99,49 @@ public class ChatService {
 
     }
 
-    public void sendImage() {
+    public void sendImage(String imageUrl) {
+        Chats chats = new Chats(
+                getCurrentDate(),
+                "",
+                imageUrl,
+                "IMAGE",
+                firebaseUser.getUid(),
+                receiverID
+        );
+
+        reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("SEND", "Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("SEND","Failed: "+e.getMessage());
+            }
+        });
+
+        //Add to ChatList
+        DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receiverID);
+        chatReference.child("chatid").setValue(receiverID);
+
+        DatabaseReference chatReference1 = FirebaseDatabase.getInstance().getReference("ChatList").child(receiverID).child(firebaseUser.getUid());
+        chatReference1.child("chatid").setValue(firebaseUser.getUid());
+    }
+
+    public String getCurrentDate() {
+        Date date = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(date);
+
+        Calendar currentDateTime = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String currentTime = dateFormat.format(currentDateTime.getTime());
+
+        return today+", "+currentTime;
 
     }
+
 
 
 }
