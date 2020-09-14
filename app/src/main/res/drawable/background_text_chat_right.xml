@@ -4,6 +4,6 @@
 
     <corners android:radius="15dp"
         android:topRightRadius="0dp"/>
-    <solid android:color="#4DE153"/>
+    <solid android:color="@color/chat_item_right"/>
 
 </shape>

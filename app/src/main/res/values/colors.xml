@@ -6,4 +6,5 @@
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
+    <color name="chat_item_right">#4DE153</color>
 </resources>

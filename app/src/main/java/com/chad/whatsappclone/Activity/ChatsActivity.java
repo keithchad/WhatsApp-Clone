@@ -1,13 +1,5 @@
 package com.chad.whatsappclone.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,9 +10,14 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Adapter.ChatsAdapter;
@@ -28,35 +25,18 @@ import com.chad.whatsappclone.Constants.DialogReviewSendImage;
 import com.chad.whatsappclone.Interface.OnReadChatCallBack;
 import com.chad.whatsappclone.Manager.ChatService;
 import com.chad.whatsappclone.Model.Chats;
-import com.chad.whatsappclone.Model.User;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.Service.FirebaseService;
 import com.chad.whatsappclone.databinding.ActivityChatsBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
 
-    private static final String TAG = "ChatsActivity";
-
     ActivityChatsBinding binding;
-
-    private FirebaseUser firebaseUser;
-    private DatabaseReference reference;
-
+//    private FirebaseUser firebaseUser;
+//    private DatabaseReference reference;
     private String userProfile;
     private String userName;
     private String about;
@@ -64,7 +44,6 @@ public class ChatsActivity extends AppCompatActivity {
     private boolean isActionShown = false;
 
     private ChatsAdapter chatsAdapter;
-    private List<Chats> list;
     private ChatService chatService;
 
     private static int REQUEST_CODE_GALLERY = 111;
@@ -75,9 +54,15 @@ public class ChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chats);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference();
+        initialize();
+        initBtnClick();
+        readChats();
 
+    }
+
+    private void initialize() {
+//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        reference = FirebaseDatabase.getInstance().getReference();
         Intent intent = getIntent();
         userName = intent.getStringExtra("userName");
         receiverID = intent.getStringExtra("userID");
@@ -86,13 +71,11 @@ public class ChatsActivity extends AppCompatActivity {
 
         chatService = new ChatService(this, receiverID);
 
-
-
         if(receiverID != null) {
             binding.chatUsername.setText(userName);
             if (userProfile != null) {
                 if(userProfile.equals("")) {
-                   binding.imageProfile.setImageResource(R.drawable.profile_image);
+                    binding.imageProfile.setImageResource(R.drawable.profile_image);
                 }else {
                     Glide.with(this).load(userProfile).into(binding.imageProfile);
                 }
@@ -105,7 +88,6 @@ public class ChatsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         binding.messageEdittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -131,17 +113,12 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
-        initBtnClick();
-
-        list = new ArrayList<>();
+        List<Chats> list = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         layoutManager.setStackFromEnd(true);
         binding.recyclerView.setLayoutManager(layoutManager);
         chatsAdapter = new ChatsAdapter(list,this);
         binding.recyclerView.setAdapter(chatsAdapter);
-
-        readChats();
-
     }
 
     private void readChats() {
@@ -153,7 +130,7 @@ public class ChatsActivity extends AppCompatActivity {
 
             @Override
             public void onReadFailed() {
-
+                Toast.makeText(ChatsActivity.this, "Read Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

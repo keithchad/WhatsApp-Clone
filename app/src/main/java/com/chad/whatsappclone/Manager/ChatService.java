@@ -41,7 +41,7 @@ public class ChatService {
         this.receiverID = receiverID;
     }
 
-    public  void readChatData(final OnReadChatCallBack onReadChatCallBack) {
+    public  void readChatData(final OnReadChatCallBack onReadChatCallBack)  {
         reference.child("Chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -71,10 +71,10 @@ public class ChatService {
         Chats chats = new Chats(
                 getCurrentDate(),
                 text,
-                "",
                 "TEXT",
                 firebaseUser.getUid(),
-                receiverID
+                receiverID,
+                ""
         );
 
         reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -103,10 +103,10 @@ public class ChatService {
         Chats chats = new Chats(
                 getCurrentDate(),
                 "",
-                imageUrl,
                 "IMAGE",
                 firebaseUser.getUid(),
-                receiverID
+                receiverID,
+                imageUrl
         );
 
         reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
