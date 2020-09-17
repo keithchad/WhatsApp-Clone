@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_marginBottom="5dp"
     android:layout_marginStart="5dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp">
+
+        <LinearLayout
+            android:id="@+id/text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="start">
 
         <TextView
             android:id="@+id/textview_textmessage"
@@ -18,5 +26,19 @@
             android:text="@string/sample_message"
             android:textSize="14sp"
             android:layout_marginLeft="10dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/chat_image"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:layout_margin="2dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginLeft="50dp"
+            android:visibility="gone"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/dummy_image"/>
 
 </LinearLayout>

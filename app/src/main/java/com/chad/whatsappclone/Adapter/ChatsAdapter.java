@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Model.Chats;
 import com.chad.whatsappclone.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,14 +62,33 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textMessage;
+        private LinearLayout textLayout;
+        private ImageView chatImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.textview_textmessage);
+            textLayout = itemView.findViewById(R.id.text_layout);
+            chatImage = itemView.findViewById(R.id.chat_image);
+
         }
 
         void bind(Chats chats) {
-            textMessage.setText(chats.getTextMessage());
+            switch (chats.getType()) {
+                case "TEXT" :
+                    textLayout.setVisibility(View.VISIBLE);
+                    chatImage.setVisibility(View.GONE);
+
+                    textMessage.setText(chats.getTextMessage());
+                    break;
+                case "IMAGE" :
+                    textLayout.setVisibility(View.GONE);
+                    chatImage.setVisibility(View.VISIBLE);
+
+                    Glide.with(context).load(chats.getUrl()).into(chatImage);
+                    break;
+            }
+
         }
 
     }
