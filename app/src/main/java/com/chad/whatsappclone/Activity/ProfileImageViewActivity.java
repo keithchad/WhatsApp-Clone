@@ -18,6 +18,10 @@ public class ProfileImageViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_image_view);
 
+        initialize();
+    }
+
+    private void initialize() {
         binding.zoomImage.setImageBitmap(Constants.IMAGE_BITMAP);
     }
 }

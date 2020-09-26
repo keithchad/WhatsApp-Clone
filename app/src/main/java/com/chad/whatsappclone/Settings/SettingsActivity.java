@@ -31,14 +31,17 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
 
+        initialize();
+        goToProfile();
+    }
+
+    private void initialize() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if(firebaseUser != null) {
             getInfo();
         }
-
-        goToProfile();
 
     }
 

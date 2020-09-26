@@ -64,34 +64,32 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
 
+        initialize();
+        bottomSheetPickAboutUsername();
+    }
+
+    private void initialize() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
         progressDialog = new ProgressDialog(this);
 
-        if(firebaseUser != null) {
+        if (firebaseUser != null) {
             getInfo();
         }
 
-        bottomSheetPickAboutUsername();
-        binding();
-
-    }
-
-    private void binding() {
-
-         binding.imageProfile.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
+        binding.imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 binding.imageProfile.invalidate();
-                 Drawable drawable = binding.imageProfile.getDrawable();
-                 Constants.IMAGE_BITMAP = ((BitmapDrawable)drawable.getCurrent()).getBitmap();
-                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ProfileActivity.this, binding.imageProfile, "image");
-                 Intent intent = new Intent(ProfileActivity.this, ProfileImageViewActivity.class);
-                 startActivity(intent, activityOptionsCompat.toBundle());
-             }
-         });
+                Drawable drawable = binding.imageProfile.getDrawable();
+                Constants.IMAGE_BITMAP = ((BitmapDrawable) drawable.getCurrent()).getBitmap();
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ProfileActivity.this, binding.imageProfile, "image");
+                Intent intent = new Intent(ProfileActivity.this, ProfileImageViewActivity.class);
+                startActivity(intent, activityOptionsCompat.toBundle());
+            }
+        });
 
     }
 

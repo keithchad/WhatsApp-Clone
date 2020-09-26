@@ -8,12 +8,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".Service.FirebaseHandler"
         android:allowBackup="true"
         android:icon="@drawable/whatsapp_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ReviewImageSendActivity"></activity>
+        <activity android:name=".Activity.ReviewImageSendActivity"/>
         <activity android:name=".Activity.UserProfileActivity" />
         <activity android:name=".Activity.ProfileImageViewActivity" />
         <activity android:name=".Activity.ContactsActivity" />

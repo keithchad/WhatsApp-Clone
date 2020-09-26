@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 
 public class SetUserInfoActivity extends AppCompatActivity {
 
@@ -32,10 +35,13 @@ public class SetUserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_set_user_info);
 
-        progressDialog = new ProgressDialog(this);
-
+        initialize();
         nextButtonClicked();
 
+    }
+
+    private void initialize() {
+        progressDialog = new ProgressDialog(this);
     }
 
     private void nextButtonClicked() {
@@ -43,10 +49,12 @@ public class SetUserInfoActivity extends AppCompatActivity {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(binding.edittextName.getText().toString())) {
-                    Toast.makeText(SetUserInfoActivity.this, "Name Field Cannot be empty", Toast.LENGTH_SHORT).show();
-                }else {
-                    doUpdate();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    if(TextUtils.isEmpty(Objects.requireNonNull(binding.edittextName.getText()).toString())) {
+                        Toast.makeText(SetUserInfoActivity.this, "Name Field Cannot be empty", Toast.LENGTH_SHORT).show();
+                    }else {
+                        doUpdate();
+                    }
                 }
 
             }
@@ -70,7 +78,10 @@ public class SetUserInfoActivity extends AppCompatActivity {
 
         if(firebaseUser != null) {
             String userID = firebaseUser.getUid();
-            String username = binding.edittextName.getText().toString();
+            String username = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                username = Objects.requireNonNull(binding.edittextName.getText()).toString();
+            }
             User users = new User(userID,username,firebaseUser.getPhoneNumber(),"","","Hey there! I am using WhatsApp");
 
             firebaseFirestore.collection("Users").document(firebaseUser.getUid()).set(users)

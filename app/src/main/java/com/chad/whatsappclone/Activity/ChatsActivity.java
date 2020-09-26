@@ -1,5 +1,6 @@
 package com.chad.whatsappclone.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -57,7 +58,6 @@ public class ChatsActivity extends AppCompatActivity {
         initialize();
         initBtnClick();
         readChats();
-
     }
 
     private void initialize() {
@@ -94,6 +94,7 @@ public class ChatsActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(TextUtils.isEmpty(binding.messageEdittext.getText().toString())) {

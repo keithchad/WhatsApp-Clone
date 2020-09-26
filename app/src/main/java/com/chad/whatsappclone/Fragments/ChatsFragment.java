@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.whatsappclone.Adapter.ChatListAdapter;
 import com.chad.whatsappclone.Model.ChatList;
@@ -31,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ChatsFragment extends Fragment {
@@ -54,10 +54,16 @@ public class ChatsFragment extends Fragment {
     private ChatListAdapter chatListAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)  {
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_chats, container, false);
 
+        initialize();
+
+        return binding.getRoot();
+    }
+
+    private void initialize() {
         list = new ArrayList<>();
         allUserID = new ArrayList<>();
 
@@ -88,8 +94,6 @@ public class ChatsFragment extends Fragment {
         if(firebaseUser != null) {
             getChatList();
         }
-
-        return binding.getRoot();
     }
 
     private void getChatList() {
@@ -102,7 +106,10 @@ public class ChatsFragment extends Fragment {
                 list.clear();
                 allUserID.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String userID = snapshot.child("chatid").getValue().toString();
+                    String userID = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        userID = Objects.requireNonNull(snapshot.child("chatid").getValue()).toString();
+                    }
                     Log.d(TAG, "onDataChange: userid" +userID);
 
                     binding.progressBar.setVisibility(View.GONE);

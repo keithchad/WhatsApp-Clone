@@ -25,7 +25,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     private Context context;
     public static  final int MSG_TYPE_LEFT = 0;
     public static  final int MSG_TYPE_RIGHT = 1;
-    private FirebaseUser firebaseUser;
 
     public ChatsAdapter(List<Chats> list, Context context) {
         this.list = list;
@@ -96,7 +95,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         if(list.get(position).getSender().equals(firebaseUser.getUid())) {
             return  MSG_TYPE_RIGHT;
         }else {

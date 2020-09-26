@@ -43,6 +43,10 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_login);
 
+        initialize();
+    }
+
+    private void initialize() {
         Spinner spin = findViewById(R.id.country_spinner);
         progressDialog = new ProgressDialog(this);
         spin.setOnItemSelectedListener(this);

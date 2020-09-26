@@ -50,7 +50,9 @@ public class StatusFragment extends Fragment {
 
                     String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
 
-                    Glide.with(getContext()).load(imageProfile).into(binding.profileImage);
+                    if (getContext() != null) {
+                        Glide.with(getContext()).load(imageProfile).into(binding.profileImage);
+                    }
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

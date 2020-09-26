@@ -39,6 +39,11 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contacts);
 
+        initialize();
+    }
+
+    private void initialize() {
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -47,7 +52,6 @@ public class ContactsActivity extends AppCompatActivity {
         if(firebaseUser != null) {
             getContactList();
         }
-
     }
 
     private void getContactList() {
@@ -56,7 +60,7 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                  for(QueryDocumentSnapshot snapshots : queryDocumentSnapshots) {
-                     Toast.makeText(ContactsActivity.this, snapshots.toString(), Toast.LENGTH_SHORT).show();
+//                     Toast.makeText(ContactsActivity.this, snapshots.toString(), Toast.LENGTH_SHORT).show();
 
                      String userID = snapshots.getString("userID");
                      String username = snapshots.getString("userName");

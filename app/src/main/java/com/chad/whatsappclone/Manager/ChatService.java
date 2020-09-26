@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.chad.whatsappclone.Activity.ChatsActivity;
-import com.chad.whatsappclone.Adapter.ChatsAdapter;
 import com.chad.whatsappclone.Interface.OnReadChatCallBack;
 import com.chad.whatsappclone.Model.Chats;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,11 +46,14 @@ public class ChatService {
                 List<Chats> list = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chats chats = snapshot.getValue(Chats.class);
-                    if (chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)
-                            || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receiverID)
-                    ) {
-                        list.add(chats);
-                        Log.e(TAG, "onDataChange : Username :"+chats.getTextMessage());
+
+                    if (chats!= null) {
+                        if (chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)
+                                || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receiverID)
+                        ) {
+                            list.add(chats);
+                            Log.e(TAG, "onDataChange : Username :"+chats.getTextMessage());
+                        }
                     }
                 }
                 onReadChatCallBack.onReadSuccess(list);

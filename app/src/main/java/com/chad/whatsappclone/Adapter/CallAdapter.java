@@ -1,5 +1,6 @@
 package com.chad.whatsappclone.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.Holder>  {
         return new Holder(view);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {

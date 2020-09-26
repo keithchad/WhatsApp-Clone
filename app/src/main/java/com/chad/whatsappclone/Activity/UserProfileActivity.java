@@ -1,45 +1,43 @@
 package com.chad.whatsappclone.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Constants.Constants;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityUserProfileBinding;
 
+import java.util.Objects;
+
 public class UserProfileActivity extends AppCompatActivity {
 
     private ActivityUserProfileBinding binding;
-
-    private String userProfile;
-    private String receiverID;
-    private  String about;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        binding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
 
-        Intent intent = getIntent();
-        String userName = intent.getStringExtra("userName");
-        receiverID = intent.getStringExtra("userID");
-        userProfile = intent.getStringExtra("imageProfile");
-        about = intent.getStringExtra("about");
+       getIntentMethod();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            initialize();
+        }
+    }
+
+    private void initialize() {
         binding.imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +49,21 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(intent, activityOptionsCompat.toBundle());
             }
         });
+
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(binding.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void getIntentMethod() {
+
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("userName");
+        String receiverID = intent.getStringExtra("userID");
+        String userProfile = intent.getStringExtra("imageProfile");
+        String about = intent.getStringExtra("about");
 
 
         if(receiverID != null) {
@@ -64,14 +77,8 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             binding.aboutText.setText(about);
         }
-        initToolbar();
     }
 
-    private void initToolbar() {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

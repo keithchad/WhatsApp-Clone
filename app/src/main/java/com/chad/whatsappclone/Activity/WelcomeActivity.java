@@ -17,6 +17,10 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        initialize();
+    }
+
+    private void initialize() {
         Button agreeBtn = findViewById(R.id.agree_btn);
         agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override

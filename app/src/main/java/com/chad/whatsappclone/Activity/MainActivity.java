@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        initialize();
+
+    }
+
+    private void initialize() {
         setUpWithViewPager(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         setSupportActionBar(binding.toolbar);
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public SectionPagerAdapter(@NonNull FragmentManager manager) {
-            super(manager);
+            super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @NonNull
@@ -148,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fabAction.hide();
 
         new Handler().postDelayed(new Runnable() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
