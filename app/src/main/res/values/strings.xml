@@ -75,4 +75,6 @@
     <string name="audio">Audio</string>
     <string name="location">Location</string>
     <string name="contact">Contact</string>
+    <string name="recent_updates">Recent Updates</string>
+    <string name="time">28 minutes ago</string>
 </resources>
