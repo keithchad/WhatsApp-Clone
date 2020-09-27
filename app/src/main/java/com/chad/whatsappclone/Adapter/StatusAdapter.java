@@ -1,5 +1,6 @@
 package com.chad.whatsappclone.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,11 +25,13 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     private Context context;
     private List<Status> list;
+    private Activity activity = (Activity) context;
     //private File[] date;
 
-    public StatusAdapter(Context context, List<Status> list) {
+    public StatusAdapter(Context context, List<Status> list, Activity activity) {
         this.context = context;
         this.list = list;
+        this.activity = activity;
         //this.date = date;
     }
 
@@ -52,10 +55,12 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, StatusActivity.class);
-                intent.putExtra("profileImage", status.getProfileImage());
                 intent.putExtra("username", status.getUserName());
-                intent.putExtra("statusImage", status.getProfileImage());
+                intent.putExtra("profileImage", status.getProfileImage());
+                intent.putExtra("statusImage", status.getStatusImage());
                 context.startActivity(intent);
+                activity.overridePendingTransition(R.anim.slide_up, R.anim.no_anim);
+
             }
         });
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +37,7 @@ public class StatusActivity extends AppCompatActivity {
     long limit = 500L;
 
     private StoriesProgressView storiesProgressView;
-    private ImageView statusImageView, imageProfile, backButton;
+    private ImageView statusImageView, imageProfile, backButton, deleteButton;
     private TextView textUsername, textTimeAgo;
 
     private TextView seen_number;
@@ -56,10 +57,16 @@ public class StatusActivity extends AppCompatActivity {
                     textUsername.setVisibility(View.INVISIBLE);
                     textTimeAgo.setVisibility(View.INVISIBLE);
                     backButton.setVisibility(View.INVISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
                     return false;
                 case MotionEvent.ACTION_UP:
                     long now = System.currentTimeMillis();
                     storiesProgressView.resume();
+                    imageProfile.setVisibility(View.VISIBLE);
+                    textUsername.setVisibility(View.VISIBLE);
+                    textTimeAgo.setVisibility(View.VISIBLE);
+                    backButton.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
                     return limit < now - pressTime;
             }
             return false;
@@ -77,24 +84,39 @@ public class StatusActivity extends AppCompatActivity {
         statusImageView = findViewById(R.id.statusImage);
         imageProfile = findViewById(R.id.imageProfile);
         backButton = findViewById(R.id.backButton);
+        deleteButton = findViewById(R.id.deleteButton);
+
 
         textUsername = findViewById(R.id.textUsername);
         textTimeAgo = findViewById(R.id.textTimeAgo);
 
-        String profileImage = getIntent().getStringExtra("profileImage");
         String username = getIntent().getStringExtra("username");
+        String profileImage = getIntent().getStringExtra("profileImage");
         String statusImage = getIntent().getStringExtra("statusImage");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorBlack));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.colorBlack));
+        }
 
         textUsername.setText(username);
         Glide.with(this).load(profileImage).into(imageProfile);
         Glide.with(this).load(statusImage).into(statusImageView);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                overridePendingTransition(R.anim.no_anim, R.anim.slide_down);
+            }
+        });
+
 //        LinearLayout read_seen = findViewById(R.id.read_seen);
 //        seen_number = findViewById(R.id.seen_number);
 //        ImageView story_delete = findViewById(R.id.story_delete);
 //
-//        read_seen.setVisibility(View.GONE);
-//        story_delete.setVisibility(View.GONE);
+        //read_seen.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.GONE);
 //
 //        userId = getIntent().getStringExtra("userid");
 //
@@ -106,25 +128,25 @@ public class StatusActivity extends AppCompatActivity {
 //        getStories(userId);
 //        userInfo(userId);
 //
-//        View reverse = findViewById(R.id.reverse);
-//        reverse.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                storiesProgressView.reverse();
-//            }
-//        });
-//
-//        reverse.setOnTouchListener(onTouchListener);
-//
-//        View skip = findViewById(R.id.skip);
-//        skip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                storiesProgressView.skip();
-//            }
-//        });
-//
-//        skip.setOnTouchListener(onTouchListener);
+        View reverse = findViewById(R.id.reverse);
+        reverse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storiesProgressView.reverse();
+            }
+        });
+
+        reverse.setOnTouchListener(onTouchListener);
+
+        View skip = findViewById(R.id.skip);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storiesProgressView.skip();
+            }
+        });
+
+        skip.setOnTouchListener(onTouchListener);
 //
 //        read_seen.setOnClickListener(new View.OnClickListener() {
 //            @Override

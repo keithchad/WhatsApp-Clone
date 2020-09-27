@@ -12,7 +12,7 @@
         android:id="@+id/statusImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/testimonial2"
+        android:src="@drawable/thumb2"
         android:contentDescription="@string/app_name" />
 
     <LinearLayout
@@ -35,11 +35,13 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/deleteButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_more" />
+            android:src="@drawable/recv_ic_delete"
+            app:tint="@android:color/holo_red_dark"/>
 
     </LinearLayout>
 
@@ -61,11 +63,11 @@
 
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:contentDescription="@string/app_name"
             android:layout_marginRight="3dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_arrow_back"
             android:layout_marginEnd="3dp" />
 
