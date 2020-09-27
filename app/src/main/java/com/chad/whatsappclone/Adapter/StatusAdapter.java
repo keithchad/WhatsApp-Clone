@@ -46,7 +46,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         holder.textUsername.setText(status.getUserName());
         holder.textTimeAgo.setText(status.getTimeAgo());
 
-//        holder.textTimeAgo.setText(date[position].lastModified() + "");
+        //holder.textTimeAgo.setText(date[position].lastModified() + "");
     }
 
     @Override

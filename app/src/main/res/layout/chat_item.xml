@@ -10,7 +10,7 @@
         android:id="@+id/profile_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/profile_image"/>
+        android:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -24,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="6dp"
             android:orientation="horizontal">
 
         <TextView
@@ -32,10 +32,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="@string/username"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"/>
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -52,8 +51,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="#2E2E2E"
-            android:text="Description"/>
+            android:text="@string/description"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"/>
 
 
     </LinearLayout>

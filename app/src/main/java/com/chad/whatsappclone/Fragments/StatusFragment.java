@@ -1,17 +1,15 @@
 package com.chad.whatsappclone.Fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Adapter.StatusAdapter;
@@ -33,8 +31,6 @@ public class StatusFragment extends Fragment {
     public StatusFragment() { }
 
     FragmentStatusBinding binding;
-    private RecyclerView recyclerView;
-    private StatusAdapter statusAdapter;
     private List<Status> list;
 
     @Override
@@ -50,14 +46,12 @@ public class StatusFragment extends Fragment {
         return  binding.getRoot();
     }
 
-
-
     private void initialize() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        statusAdapter = new StatusAdapter(getContext(), list);
+        StatusAdapter statusAdapter = new StatusAdapter(getContext(), list);
         binding.recyclerView.setAdapter(statusAdapter);
     }
 
@@ -89,6 +83,17 @@ public class StatusFragment extends Fragment {
     }
 
     private void getStatus() {
-        list.add(new Status(R.drawable.gallery_icon, "Hope Michaelson", "20 Minutes"));
+        list.add(new Status(R.drawable.testimonial1, "Hope", "Yesterday, 3:25 PM"));
+        list.add(new Status(R.drawable.testimonial2, "Hope Michaelson", "Today, 1:07PM"));
+        list.add(new Status(R.drawable.testimonial3, "Velma", "20 Minutes ago"));
+        list.add(new Status(R.drawable.testimonial4, "Mivel Michaelson", "Today 12:02AM"));
+        list.add(new Status(R.drawable.testimonial6, "Ian", "40 Minutes ago"));
+        list.add(new Status(R.drawable.thumb1, "Tevin", "20 Minutes ago"));
+        list.add(new Status(R.drawable.thumb2, "Tash Michaelson", "20 Minutes ago"));
+        list.add(new Status(R.drawable.thumb3, "Femi", "20 Minutes ago"));
+        list.add(new Status(R.drawable.thumb4, "John Doe", "20 Minutes ago"));
+        list.add(new Status(R.drawable.thumb5, "Jane Michaelson", "20 Minutes ago"));
+        list.add(new Status(R.drawable.thumb6, "Erick", "20 Minutes ago"));
     }
+
 }

@@ -37,9 +37,7 @@ public class ChatsFragment extends Fragment {
 
     private static final String TAG = "ChatsFragment";
 
-    public ChatsFragment() {
-
-    }
+    public ChatsFragment() {}
 
     private FragmentChatsBinding binding;
 

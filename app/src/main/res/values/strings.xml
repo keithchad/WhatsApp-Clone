@@ -77,4 +77,5 @@
     <string name="contact">Contact</string>
     <string name="recent_updates">Recent Updates</string>
     <string name="time">28 minutes ago</string>
+    <string name="description">Description</string>
 </resources>
