@@ -78,4 +78,5 @@
     <string name="recent_updates">Recent Updates</string>
     <string name="time">28 minutes ago</string>
     <string name="description">Description</string>
+    <string name="date_status">Today, 1:00 PM</string>
 </resources>

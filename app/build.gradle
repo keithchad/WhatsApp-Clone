@@ -75,4 +75,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
+    //Progress View
+    implementation 'com.github.shts:StoriesProgressView:3.0.0'
+
+    //CircularStatus View
+    implementation 'com.devlomi:circularstatusview:1.0.1'
+
+    //Record View
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
+
 }
