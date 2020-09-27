@@ -1,6 +1,7 @@
 package com.chad.whatsappclone.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import com.chad.whatsappclone.Activity.StatusActivity;
 import com.chad.whatsappclone.Model.Status;
 import com.chad.whatsappclone.R;
 
@@ -40,11 +42,22 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-         Status status = list.get(position);
+         final Status status = list.get(position);
 
         Glide.with(context).load(status.getProfileImage()).into(holder.profileImage);
         holder.textUsername.setText(status.getUserName());
         holder.textTimeAgo.setText(status.getTimeAgo());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, StatusActivity.class);
+                intent.putExtra("profileImage", status.getProfileImage());
+                intent.putExtra("username", status.getUserName());
+                intent.putExtra("statusImage", status.getProfileImage());
+                context.startActivity(intent);
+            }
+        });
 
         //holder.textTimeAgo.setText(date[position].lastModified() + "");
     }
