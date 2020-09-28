@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:elevation="10dp"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/testimonial2"/>
+        <TextView
+            android:id="@+id/textUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:background="#19000000"/>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/chatButton"
+            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chat"
+            android:contentDescription="@string/app_name"
+            android:tint="@color/colorPrimary"/>
+
+
+        <ImageButton
+            android:id="@+id/callButton"
+            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_call"
+            android:contentDescription="@string/app_name"
+            android:tint="@color/colorPrimary"/>
+
+
+        <ImageButton
+            android:id="@+id/videoButton"
+            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_videocam"
+            android:contentDescription="@string/app_name"
+            android:tint="@color/colorPrimary"/>
+
+
+        <ImageButton
+            android:id="@+id/infoButton"
+            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info"
+            android:tint="@color/colorPrimary"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+</LinearLayout>

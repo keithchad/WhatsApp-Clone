@@ -21,6 +21,7 @@
             android:src="@mipmap/ic_launcher"/>
 
         <com.devlomi.circularstatusview.CircularStatusView
+            android:id="@+id/circularStatusView"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_centerInParent="true"

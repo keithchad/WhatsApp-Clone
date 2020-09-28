@@ -13,33 +13,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
 import com.chad.whatsappclone.Activity.StatusActivity;
 import com.chad.whatsappclone.Model.Status;
 import com.chad.whatsappclone.R;
 
-import java.io.File;
 import java.util.List;
 
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder> {
 
     private Context context;
     private List<Status> list;
-    private Activity activity = (Activity) context;
-    //private File[] date;
+    private Activity activity;
 
     public StatusAdapter(Context context, List<Status> list, Activity activity) {
         this.context = context;
         this.list = list;
         this.activity = activity;
-        //this.date = date;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.status_item, parent,false);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.status_item, parent, false);
         return new ViewHolder(view);
+
     }
 
     @Override
@@ -63,8 +61,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
             }
         });
-
-        //holder.textTimeAgo.setText(date[position].lastModified() + "");
     }
 
     @Override
@@ -72,7 +68,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView profileImage;
         private TextView textUsername;
@@ -84,7 +80,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             profileImage = itemView.findViewById(R.id.imageProfile);
             textUsername = itemView.findViewById(R.id.textUsername);
             textTimeAgo = itemView.findViewById(R.id.textTimeAgo);
-
         }
     }
 }

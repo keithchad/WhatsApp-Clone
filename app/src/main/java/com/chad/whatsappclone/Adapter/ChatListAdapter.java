@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Activity.ChatsActivity;
+import com.chad.whatsappclone.Activity.DialogViewUser;
 import com.chad.whatsappclone.Model.ChatList;
 import com.chad.whatsappclone.R;
 
@@ -50,6 +51,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder
         }else {
             Glide.with(context).load(chatList.getUrlProfile()).into(holder.profile);
         }
+
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogViewUser(context, chatList);
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
