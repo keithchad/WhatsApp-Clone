@@ -266,6 +266,7 @@
     <LinearLayout
         android:id="@+id/pick_layout"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
@@ -302,7 +303,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="15dp"
                         android:layout_marginRight="15dp"
-                        android:tint="@color/colorBlack"
+                        app:tint="@color/colorBlack"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/ic_emoji" />
 
@@ -326,7 +327,7 @@
                         android:layout_height="25dp"
                         android:layout_marginEnd="15dp"
                         android:src="@drawable/ic_attachment"
-                        android:tint="@color/colorBlack"
+                        app:tint="@color/colorBlack"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/app_name"
                         android:layout_marginRight="15dp" />
@@ -336,7 +337,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_camera"
-                        android:tint="@color/colorBlack"
+                        app:tint="@color/colorBlack"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/app_name" />
 
@@ -346,16 +347,50 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/send_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:visibility="invisible"
                 android:tint="@color/colorWhite"
-                android:src="@drawable/ic_voice"/>
+                android:src="@drawable/ic_send"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <com.devlomi.record_view.RecordView
+        android:id="@+id/recordView"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/recordButton"
+        app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+        app:slide_to_cancel_arrow_color="@android:color/black"
+        app:slide_to_cancel_bounds="6dp"
+        app:slide_to_cancel_margin_right="15dp"
+        app:slide_to_cancel_text="Slide To Cancel"
+        app:counter_time_color="#ff0000"
+        android:layout_toLeftOf="@id/recordButton" />
 
+    <com.devlomi.record_view.RecordButton
+        android:id="@+id/recordButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+       android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/recv_bg_mic"
+        android:backgroundTint="@color/colorAccent"
+        android:scaleType="centerInside"
+        android:visibility="visible"
+        android:tint="@android:color/white"
+        app:mic_icon="@drawable/recv_ic_mic"
+        tools:targetApi="lollipop"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="4dp" />
 
 
 

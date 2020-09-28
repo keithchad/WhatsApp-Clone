@@ -9,7 +9,9 @@
       <w>emoji</w>
       <w>lastseen</w>
       <w>phonenumber</w>
+      <w>recv</w>
       <w>signout</w>
+      <w>strorage</w>
       <w>textmessage</w>
       <w>textview</w>
       <w>userid</w>
