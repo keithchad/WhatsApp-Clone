@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:background="#37873A">
+        android:background="#37873A">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,8 +104,6 @@
         android:layout_height="match_parent"
         android:layout_above="@id/pick_layout"
         android:layout_below="@id/toolbar"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="-2dp"
         android:background="#AEAEAE" />
 
     <androidx.cardview.widget.CardView
@@ -391,10 +389,6 @@
         tools:targetApi="lollipop"
         android:layout_alignParentRight="true"
         android:layout_marginStart="4dp" />
-
-
-
-
 
 </RelativeLayout>
 </layout>

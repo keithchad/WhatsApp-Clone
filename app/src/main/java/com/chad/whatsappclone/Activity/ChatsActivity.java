@@ -110,13 +110,16 @@ public class ChatsActivity extends AppCompatActivity {
         binding.recordView.setOnRecordListener(new OnRecordListener() {
             @Override
             public void onStart() {
+
+                binding.emojiButton.setVisibility(View.INVISIBLE);
+                binding.fileAttachment.setVisibility(View.INVISIBLE);
+                binding.cameraButton.setVisibility(View.INVISIBLE);
+                binding.messageEdittext.setVisibility(View.INVISIBLE);
+
                 //Start Recording..
                 if (!checkPermissionFromDevice()) {
 
-                    binding.emojiButton.setVisibility(View.INVISIBLE);
-                    binding.fileAttachment.setVisibility(View.INVISIBLE);
-                    binding.cameraButton.setVisibility(View.INVISIBLE);
-                    binding.messageEdittext.setVisibility(View.INVISIBLE);
+
                     startRecord();
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     if (vibrator != null) {
@@ -131,7 +134,11 @@ public class ChatsActivity extends AppCompatActivity {
             }
             @Override
             public void onCancel() {
-
+                try {
+                    mediaRecorder.reset();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -140,6 +147,14 @@ public class ChatsActivity extends AppCompatActivity {
                 binding.fileAttachment.setVisibility(View.VISIBLE);
                 binding.cameraButton.setVisibility(View.VISIBLE);
                 binding.messageEdittext.setVisibility(View.VISIBLE);
+
+                //Stop Recording..
+                try {
+                    sTime = getHumanTimeText(recordTime);
+                    stopRecord();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -351,7 +366,7 @@ public class ChatsActivity extends AppCompatActivity {
                 mediaRecorder = null;
 
                 //sendVoice();
-                //chatService.sendVoice(audio_path);
+                chatService.sendVoice(audio_path);
 
             } else {
                 Toast.makeText(getApplicationContext(), "Null", Toast.LENGTH_LONG).show();
