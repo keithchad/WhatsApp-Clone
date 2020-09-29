@@ -202,9 +202,11 @@ public class ChatsActivity extends AppCompatActivity {
         });
 
         List<Chats> list = new ArrayList<>();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        layoutManager.setStackFromEnd(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
         binding.recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerView.setHasFixedSize(true);
+
         chatsAdapter = new ChatsAdapter(list,this);
         binding.recyclerView.setAdapter(chatsAdapter);
     }

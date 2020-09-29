@@ -163,10 +163,10 @@ public class ChatService {
                 Chats chats = new Chats(
                         getCurrentDate(),
                         "",
-                        voiceUrl,
                         "VOICE",
                         firebaseUser.getUid(),
-                        receiverID
+                        receiverID,
+                        voiceUrl
                 );
 
                 reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -8,6 +8,16 @@
     android:background="#AEAEAE"
     tools:context=".Activity.ChatsActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/pick_layout"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="-2dp"
+        android:background="#AEAEAE" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -98,14 +108,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/pick_layout"
-        android:layout_below="@id/toolbar"
-        android:background="#AEAEAE" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/layout_actions"
         android:layout_width="match_parent"
@@ -141,7 +143,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/gallery_icon"/>
+                        android:src="@drawable/google_docs"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -179,7 +181,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/gallery_icon"/>
+                        android:src="@drawable/gallery_button"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -208,7 +210,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/gallery_icon"/>
+                        android:src="@drawable/audio"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,7 +229,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/gallery_icon"/>
+                        android:src="@drawable/google_maps"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -246,7 +248,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/gallery_icon"/>
+                        android:src="@drawable/system_contacts"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -356,27 +358,27 @@
     </LinearLayout>
 
     <com.devlomi.record_view.RecordView
-        android:id="@+id/recordView"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="4dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@id/recordButton"
-        app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
-        app:slide_to_cancel_arrow_color="@android:color/black"
-        app:slide_to_cancel_bounds="6dp"
-        app:slide_to_cancel_margin_right="15dp"
-        app:slide_to_cancel_text="Slide To Cancel"
-        app:counter_time_color="#ff0000"
-        android:layout_toLeftOf="@id/recordButton" />
+    android:id="@+id/recordView"
+    android:visibility="visible"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="4dp"
+    android:layout_alignParentBottom="true"
+    android:layout_toStartOf="@id/recordButton"
+    app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+    app:slide_to_cancel_arrow_color="@android:color/black"
+    app:slide_to_cancel_bounds="6dp"
+    app:slide_to_cancel_margin_right="15dp"
+    app:slide_to_cancel_text="Slide To Cancel"
+    app:counter_time_color="#ff0000"
+    android:layout_toLeftOf="@id/recordButton" />
 
     <com.devlomi.record_view.RecordButton
         android:id="@+id/recordButton"
         android:layout_width="55dp"
         android:layout_height="55dp"
-       android:layout_marginBottom="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
