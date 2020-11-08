@@ -309,13 +309,6 @@ public class ProfileActivity extends AppCompatActivity {
             imageUri = data.getData();
 
             uploadToFirebase();
-
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-//                binding.imageProfile.setImageBitmap(bitmap);
-//            }catch (Exception e) {
-//                e.printStackTrace();
-//            }
         }
 
     }
