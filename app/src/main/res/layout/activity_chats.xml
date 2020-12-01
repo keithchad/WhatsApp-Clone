@@ -8,6 +8,8 @@
     android:background="#AEAEAE"
     tools:context=".Activity.ChatsActivity">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -17,6 +19,8 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="-2dp"
         android:background="#AEAEAE" />
+
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -356,6 +360,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/homeScreenImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:background="@color/colorBlack"
+        android:scaleType="centerCrop"/>
 
     <com.devlomi.record_view.RecordView
     android:id="@+id/recordView"
