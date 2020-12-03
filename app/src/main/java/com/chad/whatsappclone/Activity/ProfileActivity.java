@@ -1,13 +1,18 @@
 package com.chad.whatsappclone.Activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +26,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.chad.whatsappclone.BuildConfig;
 import com.chad.whatsappclone.Constants.Constants;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityProfileBinding;
@@ -40,7 +49,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -143,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
                 view.findViewById(R.id.layout_camera).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(ProfileActivity.this, "Camera Clicked", Toast.LENGTH_SHORT).show();
+                        checkCameraPermission();
                         bottomSheetDialogPickImage.dismiss();
                     }
                 });
@@ -192,6 +205,20 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+            Constants.REQUEST_CODE_CAMERA);
+        } else if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    Constants.REQUEST_CODE_CAMERA);
+        } else {
+            openCamera();
+        }
     }
 
     private void updateAbout(String updateAbout) {
@@ -263,12 +290,27 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void openGallery() {
-
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "select image"), Constants.REQUEST_CODE_GALLERY);
+    }
 
+    @SuppressLint("SimpleDateFormat")
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + ".jpg";
+
+        try {
+            File file = File.createTempFile("IMG_" + timeStamp, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.putExtra("photoName", imageFileName);
+            startActivityForResult(intent, Constants.REQUEST_CODE_CAMERA);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getInfo() {
@@ -310,14 +352,16 @@ public class ProfileActivity extends AppCompatActivity {
             uploadToFirebase();
         }
 
+        if(requestCode == Constants.REQUEST_CODE_CAMERA) {
+            uploadToFirebase();
+        }
+
     }
 
     private String getFileExtension(Uri uri) {
-
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-
     }
 
     private void uploadToFirebase() {
