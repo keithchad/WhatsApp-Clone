@@ -1,34 +1,27 @@
 package com.chad.whatsappclone.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.chad.whatsappclone.Adapter.FragmentViewPagerAdapter;
 import com.chad.whatsappclone.Fragments.CallsFragment;
+import com.chad.whatsappclone.Fragments.CameraFragment;
 import com.chad.whatsappclone.Fragments.ChatsFragment;
 import com.chad.whatsappclone.Fragments.StatusFragment;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.Settings.SettingsActivity;
 import com.chad.whatsappclone.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
         initialize();
-
     }
 
     private void initialize() {
@@ -69,47 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpWithViewPager(ViewPager viewPager) {
 
-        MainActivity.SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
+        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
+        adapter.addFragment(new CameraFragment(), "Camera");
         adapter.addFragment(new ChatsFragment(), "Chats");
         adapter.addFragment(new StatusFragment(), "Status");
         adapter.addFragment(new CallsFragment(), "Calls");
 
-
         viewPager.setAdapter(adapter);
-
-    }
-
-    private static class SectionPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public SectionPagerAdapter(@NonNull FragmentManager manager) {
-            super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 
     @Override
@@ -141,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
               Toast.makeText(MainActivity.this, "Starred Messages Selected", Toast.LENGTH_LONG).show();
               return true;
          case R.id.action_settings:
-              //Toast.makeText(MainActivity.this, "Settings Selected", Toast.LENGTH_LONG).show();
-             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+              Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+              startActivity(intent);
               return true;
 
 
@@ -150,34 +109,29 @@ public class MainActivity extends AppCompatActivity {
         return  super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void changeFabIcon(final int index) {
         binding.fabAction.hide();
 
-        new Handler().postDelayed(new Runnable() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void run() {
-                switch(index) {
-                    case 0:
-                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
-                            binding.fabAction.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-                                }
-                            });
-                        break;
-                    case 1:
-                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));
-                        break;
-                    case 2:
-                        binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
-                        break;
-                }
-
-                binding.fabAction.show();
+        new Handler().postDelayed(() -> {
+            switch(index) {
+                case 0:
+                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
+                        binding.fabAction.setOnClickListener(v -> {
+                            Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+                            startActivity(intent);
+                        });
+                    break;
+                case 1:
+                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));
+                    break;
+                case 2:
+                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
+                    break;
             }
+
+            binding.fabAction.show();
         }, 400);
+
     }
 }
