@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.Activity.ChatsActivity;
-import com.chad.whatsappclone.Activity.DialogViewUser;
+import com.chad.whatsappclone.Dialog.DialogViewUser;
 import com.chad.whatsappclone.Model.ChatList;
 import com.chad.whatsappclone.R;
 

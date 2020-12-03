@@ -1,4 +1,4 @@
-package com.chad.whatsappclone.Constants;
+package com.chad.whatsappclone.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;

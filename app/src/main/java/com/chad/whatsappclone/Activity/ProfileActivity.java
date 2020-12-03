@@ -56,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog dialogSignOut;
 
-    private static int REQUEST_CODE_GALLERY = 111;
     private Uri imageUri;
 
     @Override
@@ -268,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "select image"), REQUEST_CODE_GALLERY);
+        startActivityForResult(Intent.createChooser(intent, "select image"), Constants.REQUEST_CODE_GALLERY);
 
     }
 
@@ -305,7 +304,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if(requestCode == Constants.REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
 
             uploadToFirebase();
