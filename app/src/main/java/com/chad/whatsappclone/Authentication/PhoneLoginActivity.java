@@ -42,7 +42,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_login);
-
         initialize();
     }
 
@@ -57,11 +56,11 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
 
         mAuth = FirebaseAuth.getInstance();
 
-        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
+        binding.nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.nextBtn.getText().toString().equals("Next")) {
-                    String phoneNumber = "+"+binding.edittextCountryCode.getText().toString()+binding.edittextPhonenumber.getText().toString();
+                if (binding.nextButton.getText().toString().equals("Next")) {
+                    String phoneNumber = "+"+binding.edittextCountrycode.getText().toString()+binding.edittextPhonenumber.getText().toString();
                     startPhoneNumberVerification(phoneNumber);
                 }else {
                     progressDialog.setMessage("Verifying...");
@@ -91,7 +90,10 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
 
                 mVerification = verificationId;
 
-                binding.nextBtn.setText("Confirm");
+                binding.nextButton.setText("Confirm");
+                binding.edittextCode.setVisibility(View.VISIBLE);
+                binding.edittextPhonenumber.setEnabled(false);
+                binding.edittextCountrycode.setEnabled(false);
                 progressDialog.dismiss();
 
             }

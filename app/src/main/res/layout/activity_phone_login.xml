@@ -101,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:maxLength="6"
+                android:visibility="gone"
                 android:inputType="number"
                 android:hint="@string/enter_code"
                 android:importantForAutofill="no" />
