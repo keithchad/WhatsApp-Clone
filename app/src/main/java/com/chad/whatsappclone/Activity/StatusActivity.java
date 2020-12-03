@@ -1,32 +1,17 @@
 package com.chad.whatsappclone.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.chad.whatsappclone.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import jp.shts.android.storiesprogressview.StoriesProgressView;
 
@@ -43,6 +28,7 @@ public class StatusActivity extends AppCompatActivity {
     private TextView textUsername, textTimeAgo;
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
@@ -68,7 +54,6 @@ public class StatusActivity extends AppCompatActivity {
             return false;
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,31 +84,18 @@ public class StatusActivity extends AppCompatActivity {
         Glide.with(this).load(profileImage).into(imageProfile);
         Glide.with(this).load(statusImage).into(statusImageView);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                overridePendingTransition(R.anim.no_anim, R.anim.slide_down);
-            }
+        backButton.setOnClickListener(v -> {
+            onBackPressed();
+            overridePendingTransition(R.anim.no_anim, R.anim.slide_down);
         });
 
         View reverse = findViewById(R.id.reverse);
-        reverse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storiesProgressView.reverse();
-            }
-        });
+        reverse.setOnClickListener(v -> storiesProgressView.reverse());
 
         reverse.setOnTouchListener(onTouchListener);
 
         View skip = findViewById(R.id.skip);
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storiesProgressView.skip();
-            }
-        });
+        skip.setOnClickListener(v -> storiesProgressView.skip());
 
         skip.setOnTouchListener(onTouchListener);
 

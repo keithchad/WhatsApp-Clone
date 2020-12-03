@@ -16,10 +16,8 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -98,11 +96,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void bottomSheetPickAboutUsername() {
 
-        binding.layoutName.setOnClickListener((View.OnClickListener) v -> {
+        binding.layoutName.setOnClickListener(v -> {
             bottomSheetDialogEditName = new BottomSheetDialog(
                     ProfileActivity.this, R.style.BottomSheetDialogTheme
             );
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_editname, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_editname, findViewById(R.id.bottomSheetContainer));
 
             final EditText changedUsername = view.findViewById(R.id.edittext_username);
 
@@ -119,11 +117,11 @@ public class ProfileActivity extends AppCompatActivity {
             bottomSheetDialogEditName.show();
         });
 
-        binding.fabCamera.setOnClickListener((View.OnClickListener) v -> {
+        binding.fabCamera.setOnClickListener(v -> {
             bottomSheetDialogPickImage = new BottomSheetDialog(
                     ProfileActivity.this, R.style.BottomSheetDialogTheme
             );
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_pickimage, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_pickimage, findViewById(R.id.bottomSheetContainer));
             view.findViewById(R.id.layout_gallery).setOnClickListener(v13 -> {
                openGallery();
                 bottomSheetDialogPickImage.dismiss();
@@ -138,11 +136,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         binding.signoutButton.setOnClickListener(v -> showDialogSignOut());
 
-        binding.layoutAbout.setOnClickListener((View.OnClickListener) v -> {
+        binding.layoutAbout.setOnClickListener(v -> {
             bottomSheetDialogEditAbout = new BottomSheetDialog(
                     ProfileActivity.this, R.style.BottomSheetDialogTheme
             );
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_about, (LinearLayout)findViewById(R.id.bottomSheetContainer));
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.bottomsheet_about, findViewById(R.id.bottomSheetContainer));
 
             final EditText changedAbout = view.findViewById(R.id.edittext_about);
 
@@ -190,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
             View view = LayoutInflater.from(this).inflate(
-                    R.layout.layout_signout,(ViewGroup) findViewById(R.id.layoutSignOutContainer)
+                    R.layout.layout_signout, findViewById(R.id.layoutSignOutContainer)
             );
             builder.setView(view);
 

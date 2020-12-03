@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.chad.whatsappclone.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,16 +22,22 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initialize() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        delay(firebaseUser);
+    }
+
+    private void delay(FirebaseUser firebaseUser) {
 
         if(firebaseUser != null) {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Intent mainIntent = new Intent(SplashActivity.this,
                         MainActivity.class);
                 startActivity(mainIntent);
                 finish();
             }, 3000);
-        }else {
-            new Handler().postDelayed(() -> {
+        }
+
+        else {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Intent mainIntent = new Intent(SplashActivity.this,
                         WelcomeActivity.class);
                 startActivity(mainIntent);

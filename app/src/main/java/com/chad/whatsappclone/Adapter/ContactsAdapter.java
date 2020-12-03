@@ -48,15 +48,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         Glide.with(context).load(user.getImageProfile()).into(holder.imageProfile);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, ChatsActivity.class)
-                        .putExtra("userID", user.getUserID())
-                        .putExtra("userName", user.getUserName())
-                        .putExtra("userProfile", user.getImageProfile())
-                        .putExtra("about", user.getAbout()));
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChatsActivity.class);
+            intent.putExtra("userID", user.getUserID());
+            intent.putExtra("userName", user.getUserName());
+            intent.putExtra("userProfile", user.getImageProfile());
+            intent.putExtra("about", user.getAbout());
+            context.startActivity(intent);
         });
 
     }

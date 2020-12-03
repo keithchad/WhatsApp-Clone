@@ -52,22 +52,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder
             Glide.with(context).load(chatList.getUrlProfile()).into(holder.profile);
         }
 
-        holder.profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DialogViewUser(context, chatList);
-            }
-        });
+        holder.profile.setOnClickListener(v -> new DialogViewUser(context, chatList));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, ChatsActivity.class)
-                        .putExtra("userID", chatList.getUserID())
-                        .putExtra("userName", chatList.getUserName())
-                        .putExtra("userProfile", chatList.getUrlProfile()));
-
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChatsActivity.class);
+            intent.putExtra("userID", chatList.getUserID());
+            intent.putExtra("userName", chatList.getUserName());
+            intent.putExtra("userProfile", chatList.getUrlProfile());
+            context.startActivity(intent);
         });
 
     }

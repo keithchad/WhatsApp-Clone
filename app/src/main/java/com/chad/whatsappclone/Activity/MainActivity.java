@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +26,8 @@ import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.Settings.SettingsActivity;
 import com.chad.whatsappclone.databinding.ActivityMainBinding;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -34,10 +39,16 @@ public class MainActivity extends AppCompatActivity {
         initialize();
     }
 
+    @SuppressLint("InflateParams")
     private void initialize() {
         setUpWithViewPager(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         setSupportActionBar(binding.toolbar);
+
+        View tab = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_camera_tab, null);
+        Objects.requireNonNull(binding.tabLayout.getTabAt(0)).setCustomView(tab);
+
+        binding.viewPager.setCurrentItem(1);
 
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -113,24 +124,28 @@ public class MainActivity extends AppCompatActivity {
     private void changeFabIcon(final int index) {
         binding.fabAction.hide();
 
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             switch(index) {
                 case 0:
-                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
-                        binding.fabAction.setOnClickListener(v -> {
-                            Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
-                            startActivity(intent);
-                        });
+                    binding.fabAction.hide();
                     break;
                 case 1:
-                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));
+                    binding.fabAction.show();
+                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_chat));
+                    binding.fabAction.setOnClickListener(v -> {
+                        Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+                        startActivity(intent);
+                    });
                     break;
                 case 2:
+                    binding.fabAction.show();
+                    binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_camera));
+                    break;
+                case 3:
+                    binding.fabAction.show();
                     binding.fabAction.setImageDrawable(getDrawable(R.drawable.ic_call));
                     break;
             }
-
-            binding.fabAction.show();
         }, 400);
 
     }

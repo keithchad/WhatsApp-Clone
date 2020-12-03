@@ -3,11 +3,9 @@ package com.chad.whatsappclone.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,29 +30,22 @@ public class UserProfileActivity extends AppCompatActivity {
 
        getIntentMethod();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            initialize();
-        }
+        initialize();
     }
 
     private void initialize() {
-        binding.imageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.imageProfile.invalidate();
-                Drawable drawable = binding.imageProfile.getDrawable();
-                Constants.IMAGE_BITMAP = ((BitmapDrawable)drawable.getCurrent()).getBitmap();
-                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(UserProfileActivity.this, binding.imageProfile, "image");
-                Intent intent = new Intent(UserProfileActivity.this, ProfileImageViewActivity.class);
-                startActivity(intent, activityOptionsCompat.toBundle());
-            }
+        binding.imageProfile.setOnClickListener(v -> {
+            binding.imageProfile.invalidate();
+            Drawable drawable = binding.imageProfile.getDrawable();
+            Constants.IMAGE_BITMAP = ((BitmapDrawable)drawable.getCurrent()).getBitmap();
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(UserProfileActivity.this, binding.imageProfile, "image");
+            Intent intent = new Intent(UserProfileActivity.this, ProfileImageViewActivity.class);
+            startActivity(intent, activityOptionsCompat.toBundle());
         });
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        }
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     private void getIntentMethod() {

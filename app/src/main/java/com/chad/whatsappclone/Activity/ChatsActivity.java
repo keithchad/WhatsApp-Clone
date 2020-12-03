@@ -36,7 +36,6 @@ import com.chad.whatsappclone.Model.Chats;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.Service.FirebaseService;
 import com.chad.whatsappclone.databinding.ActivityChatsBinding;
-import com.devlomi.record_view.OnBasketAnimationEnd;
 import com.devlomi.record_view.OnRecordListener;
 
 import java.io.IOException;
@@ -64,7 +63,6 @@ public class ChatsActivity extends AppCompatActivity {
     //Audio
     private MediaRecorder mediaRecorder;
     private String audio_path;
-    private String sTime;
     private static final int REQUEST_CORD_PERMISSION = 332;
 
     @Override
@@ -97,12 +95,7 @@ public class ChatsActivity extends AppCompatActivity {
             }
         }
 
-        binding.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        binding.backButton.setOnClickListener(v -> finish());
         binding.recordButton.setRecordView(binding.recordView);
 
         binding.recordView.setOnRecordListener(new OnRecordListener() {
@@ -148,7 +141,6 @@ public class ChatsActivity extends AppCompatActivity {
 
                 //Stop Recording..
                 try {
-                    sTime = getHumanTimeText(recordTime);
                     stopRecord();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -165,14 +157,11 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
-        binding.recordView.setOnBasketAnimationEndListener(new OnBasketAnimationEnd() {
-            @Override
-            public void onAnimationEnd() {
-                binding.emojiButton.setVisibility(View.VISIBLE);
-                binding.fileAttachment.setVisibility(View.VISIBLE);
-                binding.cameraButton.setVisibility(View.VISIBLE);
-                binding.messageEdittext.setVisibility(View.VISIBLE);
-            }
+        binding.recordView.setOnBasketAnimationEndListener(() -> {
+            binding.emojiButton.setVisibility(View.VISIBLE);
+            binding.fileAttachment.setVisibility(View.VISIBLE);
+            binding.cameraButton.setVisibility(View.VISIBLE);
+            binding.messageEdittext.setVisibility(View.VISIBLE);
         });
 
         binding.messageEdittext.addTextChangedListener(new TextWatcher() {
@@ -231,60 +220,36 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void initBtnClick() {
-        binding.sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!TextUtils.isEmpty(binding.messageEdittext.getText().toString())) {
-                    chatService.sendTextMessage(binding.messageEdittext.getText().toString());
-
-                    binding.messageEdittext.setText("");
-
-                }
+        binding.sendButton.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(binding.messageEdittext.getText().toString())) {
+                chatService.sendTextMessage(binding.messageEdittext.getText().toString());
+                binding.messageEdittext.setText("");
             }
         });
 
-        binding.imageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ChatsActivity.this, UserProfileActivity.class)
+        binding.imageProfile.setOnClickListener(v -> startActivity(new Intent(ChatsActivity.this, UserProfileActivity.class)
+        .putExtra("userID", receiverID)
+        .putExtra("imageProfile", userProfile)
+        .putExtra("userName", userName)
+        .putExtra("about", about)));
+
+        binding.usernameLayout.setOnClickListener(v -> startActivity(new Intent(ChatsActivity.this, UserProfileActivity.class)
                 .putExtra("userID", receiverID)
                 .putExtra("imageProfile", userProfile)
                 .putExtra("userName", userName)
-                .putExtra("about", about));
+                .putExtra("about", about)));
+
+        binding.fileAttachment.setOnClickListener(v -> {
+            if(isActionShown) {
+                binding.layoutActions.setVisibility(View.GONE);
+                isActionShown = false;
+            }else {
+                binding.layoutActions.setVisibility(View.VISIBLE);
+                isActionShown = true;
             }
         });
 
-        binding.usernameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ChatsActivity.this, UserProfileActivity.class)
-                        .putExtra("userID", receiverID)
-                        .putExtra("imageProfile", userProfile)
-                        .putExtra("userName", userName)
-                        .putExtra("about", about));
-            }
-        });
-
-        binding.fileAttachment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isActionShown) {
-                    binding.layoutActions.setVisibility(View.GONE);
-                    isActionShown = false;
-                }else {
-                    binding.layoutActions.setVisibility(View.VISIBLE);
-                    isActionShown = true;
-                }
-            }
-        });
-
-        binding.gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
-
+        binding.gallery.setOnClickListener(v -> openGallery());
     }
 
     private void openGallery() {
@@ -316,29 +281,26 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void reviewImage(Bitmap bitmap) {
-        new DialogReviewSendImage(ChatsActivity.this, bitmap).show(new DialogReviewSendImage.OnCallBack() {
-            @Override
-            public void onButtonSendClick() {
-                 final ProgressDialog progressDialog = new ProgressDialog(ChatsActivity.this);
-                 progressDialog.setMessage("Sending Image!");
-                 progressDialog.show();
+        new DialogReviewSendImage(ChatsActivity.this, bitmap).show(() -> {
+             final ProgressDialog progressDialog = new ProgressDialog(ChatsActivity.this);
+             progressDialog.setMessage("Sending Image!");
+             progressDialog.show();
 
-                 binding.layoutActions.setVisibility(View.GONE);
-                 isActionShown = false;
-                if(imageUri != null) {
-                    new FirebaseService(ChatsActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.onCallBack() {
-                        @Override
-                        public void onUploadSuccess(String imageUrl) {
-                            chatService.sendImage(imageUrl);
-                            progressDialog.dismiss();
-                        }
+             binding.layoutActions.setVisibility(View.GONE);
+             isActionShown = false;
+            if(imageUri != null) {
+                new FirebaseService(ChatsActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.onCallBack() {
+                    @Override
+                    public void onUploadSuccess(String imageUrl) {
+                        chatService.sendImage(imageUrl);
+                        progressDialog.dismiss();
+                    }
 
-                        @Override
-                        public void onUploadFailed(Exception e) {
+                    @Override
+                    public void onUploadFailed(Exception e) {
 
-                        }
-                    });
-                }
+                    }
+                });
             }
         });
     }

@@ -49,17 +49,13 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         holder.textUsername.setText(status.getUserName());
         holder.textTimeAgo.setText(status.getTimeAgo());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, StatusActivity.class);
-                intent.putExtra("username", status.getUserName());
-                intent.putExtra("profileImage", status.getProfileImage());
-                intent.putExtra("statusImage", status.getStatusImage());
-                context.startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_up, R.anim.no_anim);
-
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, StatusActivity.class);
+            intent.putExtra("username", status.getUserName());
+            intent.putExtra("profileImage", status.getProfileImage());
+            intent.putExtra("statusImage", status.getStatusImage());
+            context.startActivity(intent);
+            activity.overridePendingTransition(R.anim.slide_up, R.anim.no_anim);
         });
     }
 

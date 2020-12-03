@@ -70,7 +70,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         private LinearLayout textLayout;
         private LinearLayout voiceLayout;
         private ImageView chatImage;
-        private ViewHolder tmpHolder;
 
         private ImageButton playButton;
 
@@ -84,6 +83,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             playButton = itemView.findViewById(R.id.btn_play_chat);
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         void bind(final Chats chats) {
             switch (chats.getType()) {
                 case "TEXT" :
@@ -106,25 +106,17 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                     chatImage.setVisibility(View.GONE);
                     voiceLayout.setVisibility(View.VISIBLE);
 
-                   voiceLayout.setOnClickListener(new View.OnClickListener() {
-                       @SuppressLint("UseCompatLoadingForDrawables")
-                       @Override
-                       public void onClick(View v) {
+                   voiceLayout.setOnClickListener(v -> {
 
-                           if (tmpPlay != null) {
-                               tmpPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pause));
-                           }
-                            playButton.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pause));
-
-                            audioService.playAudioFromUrl(chats.getUrl(), new AudioService.OnPlayCallBack() {
-                                @Override
-                                public void onFinished() {
-                                    playButton.setImageDrawable(context.getResources().getDrawable(R.drawable.play_circle));
-                                }
-                            });
-
-                            tmpPlay = playButton;
+                       if (tmpPlay != null) {
+                           tmpPlay.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pause));
                        }
+                        playButton.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pause));
+
+                        audioService.playAudioFromUrl(chats.getUrl(),
+                                () -> playButton.setImageDrawable(context.getResources().getDrawable(R.drawable.play_circle)));
+
+                        tmpPlay = playButton;
                    });
                     break;
             }
