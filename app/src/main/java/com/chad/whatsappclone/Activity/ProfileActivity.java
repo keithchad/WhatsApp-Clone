@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,17 +36,13 @@ import com.chad.whatsappclone.BuildConfig;
 import com.chad.whatsappclone.Constants.Constants;
 import com.chad.whatsappclone.R;
 import com.chad.whatsappclone.databinding.ActivityProfileBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -75,7 +70,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
-
         initialize();
         bottomSheetPickAboutUsername();
     }
@@ -152,24 +146,16 @@ public class ProfileActivity extends AppCompatActivity {
 
             final EditText changedAbout = view.findViewById(R.id.edittext_about);
 
-            view.findViewById(R.id.about_save_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(TextUtils.isEmpty(changedAbout.getText().toString())) {
-                        Toast.makeText(ProfileActivity.this, "About can't be Empty!", Toast.LENGTH_SHORT).show();
-                    }else {
-                        updateAbout(changedAbout.getText().toString());
-                        bottomSheetDialogEditAbout.dismiss();
-                    }
+            view.findViewById(R.id.about_save_button).setOnClickListener(v15 -> {
+                if(TextUtils.isEmpty(changedAbout.getText().toString())) {
+                    Toast.makeText(ProfileActivity.this, "About can't be Empty!", Toast.LENGTH_SHORT).show();
+                }else {
+                    updateAbout(changedAbout.getText().toString());
                     bottomSheetDialogEditAbout.dismiss();
                 }
+                bottomSheetDialogEditAbout.dismiss();
             });
-            view.findViewById(R.id.about_cancel_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bottomSheetDialogEditAbout.dismiss();
-                }
-            });
+            view.findViewById(R.id.about_cancel_button).setOnClickListener(v16 -> bottomSheetDialogEditAbout.dismiss());
             bottomSheetDialogEditAbout.setContentView(view);
             bottomSheetDialogEditAbout.show();
         });
@@ -192,18 +178,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateAbout(String updateAbout) {
 
-        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("about", updateAbout).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(ProfileActivity.this, "Updated Succefully!", Toast.LENGTH_SHORT).show();
-                getInfo();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("about", updateAbout).addOnSuccessListener(aVoid -> {
+            Toast.makeText(ProfileActivity.this, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+            getInfo();
+        }).addOnFailureListener(e -> Toast.makeText(ProfileActivity.this,
+                "Something Went Wrong!", Toast.LENGTH_SHORT).show());
 
     }
 
@@ -220,41 +199,23 @@ public class ProfileActivity extends AppCompatActivity {
                 dialogSignOut.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             }
 
-            view.findViewById(R.id.textSignOut).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(ProfileActivity.this, SplashActivity.class));
-
-                }
+            view.findViewById(R.id.textSignOut).setOnClickListener(v -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ProfileActivity.this, SplashActivity.class));
             });
 
-            view.findViewById(R.id.textCancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialogSignOut.dismiss();
-                }
-            });
+            view.findViewById(R.id.textCancel).setOnClickListener(v -> dialogSignOut.dismiss());
 
         dialogSignOut.show();
 
     }
 
     private void updateName(String changedName) {
-
-        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("userName", changedName).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(ProfileActivity.this, "Updated Succefully!", Toast.LENGTH_SHORT).show();
-                getInfo();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update("userName", changedName).addOnSuccessListener(aVoid -> {
+            Toast.makeText(ProfileActivity.this, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+            getInfo();
+        }).addOnFailureListener(e -> Toast.makeText(ProfileActivity.this,
+                "Something Went Wrong!", Toast.LENGTH_SHORT).show());
 
     }
 
@@ -283,31 +244,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getInfo() {
-
         firebaseFirestore.collection("Users").document(firebaseUser.getUid()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                        String userName = String.valueOf(documentSnapshot.get("userName"));
-                        String phoneNumber = String.valueOf(documentSnapshot.get("userPhone"));
-                        String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
-                        String about = String.valueOf(documentSnapshot.get("about"));
+                .addOnSuccessListener(documentSnapshot -> {
+                    String userName = String.valueOf(documentSnapshot.get("userName"));
+                    String phoneNumber = String.valueOf(documentSnapshot.get("userPhone"));
+                    String imageProfile = String.valueOf(documentSnapshot.get("imageProfile"));
+                    String about = String.valueOf(documentSnapshot.get("about"));
 
 
-                        binding.userNameText.setText(userName);
-                        binding.phoneNumberText.setText(phoneNumber);
-                        binding.aboutText.setText(about);
-                        Glide.with(ProfileActivity.this).load(imageProfile).into(binding.imageProfile);
+                    binding.userNameText.setText(userName);
+                    binding.phoneNumberText.setText(phoneNumber);
+                    binding.aboutText.setText(about);
+                    Glide.with(ProfileActivity.this).load(imageProfile).into(binding.imageProfile);
 
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, "Failed to retrieve data!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }).addOnFailureListener(e -> Toast.makeText(ProfileActivity.this,
+                "Failed to retrieve data!", Toast.LENGTH_SHORT).show());
 
     }
 
@@ -334,41 +286,34 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void uploadToFirebase() {
-
         if(imageUri != null) {
+
             progressDialog.setMessage("Please Wait");
             progressDialog.show();
             StorageReference storageReference = firebaseStorage.getReference().child("Profile Images/" + System.currentTimeMillis()+"."+getFileExtension(imageUri));
-            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while(!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
+            storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                while(!urlTask.isSuccessful());
+                Uri downloadUrl = urlTask.getResult();
 
-                    final String storageDownloadUrl = String.valueOf(downloadUrl);
+                final String storageDownloadUrl = String.valueOf(downloadUrl);
 
-                    HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("imageProfile", storageDownloadUrl);
-                    progressDialog.dismiss();
-                    firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update(hashMap)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(ProfileActivity.this, "Uploaded Successfully!", Toast.LENGTH_SHORT).show();
-                            getInfo();
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("imageProfile", storageDownloadUrl);
+                progressDialog.dismiss();
+                firebaseFirestore.collection("Users").document(firebaseUser.getUid()).update(hashMap)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ProfileActivity.this,
+                            "Uploaded Successfully!", Toast.LENGTH_SHORT).show();
+                    getInfo();
 
-                        }
-                    });
+                });
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(ProfileActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                progressDialog.dismiss();
+                Toast.makeText(ProfileActivity.this,
+                        "Upload Failed!", Toast.LENGTH_SHORT).show();
 
-                }
             });
 
         }

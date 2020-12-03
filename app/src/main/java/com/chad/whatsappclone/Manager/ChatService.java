@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 
 import com.chad.whatsappclone.Interface.OnReadChatCallBack;
 import com.chad.whatsappclone.Model.Chats;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -54,12 +51,16 @@ public class ChatService {
                     Chats chats = snapshot.getValue(Chats.class);
 
                     if (chats!= null) {
-                        if (chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)
-                                || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receiverID)
-                        ) {
-                            list.add(chats);
-                            Log.e(TAG, "onDataChange : Username :"+chats.getTextMessage());
-                        }
+                       try {
+                           if (chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverID)
+                                   || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receiverID)
+                           ) {
+                               list.add(chats);
+                               Log.e(TAG, "onDataChange : Username :"+chats.getTextMessage());
+                           }
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       }
                     }
                 }
                 onReadChatCallBack.onReadSuccess(list);
@@ -84,17 +85,9 @@ public class ChatService {
                 ""
         );
 
-        reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("SEND", "Success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("SEND","Failed: "+e.getMessage());
-            }
-        });
+        reference.child("Chats").push().setValue(chats)
+                .addOnSuccessListener(aVoid -> Log.d("SEND", "Success")).
+                addOnFailureListener(e -> Log.d("SEND","Failed: "+e.getMessage()));
 
         //Add to ChatList
         DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receiverID);
@@ -116,17 +109,7 @@ public class ChatService {
                 imageUrl
         );
 
-        reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("SEND", "Success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("SEND","Failed: "+e.getMessage());
-            }
-        });
+        reference.child("Chats").push().setValue(chats).addOnSuccessListener(aVoid -> Log.d("SEND", "Success")).addOnFailureListener(e -> Log.d("SEND","Failed: "+e.getMessage()));
 
         //Add to ChatList
         DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receiverID);
@@ -152,46 +135,33 @@ public class ChatService {
     public void sendVoice(String audioPath){
         final Uri uriAudio = Uri.fromFile(new File(audioPath));
         final StorageReference audioRef = FirebaseStorage.getInstance().getReference().child("Chats/VoiceMessages/" + System.currentTimeMillis());
-        audioRef.putFile(uriAudio).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot audioSnapshot) {
-                Task<Uri> urlTask = audioSnapshot.getStorage().getDownloadUrl();
-                while (!urlTask.isSuccessful()) ;
-                Uri downloadUrl = urlTask.getResult();
-                String voiceUrl = String.valueOf(downloadUrl);
+        audioRef.putFile(uriAudio).addOnSuccessListener(audioSnapshot -> {
+            Task<Uri> urlTask = audioSnapshot.getStorage().getDownloadUrl();
+            while (!urlTask.isSuccessful()) ;
+            Uri downloadUrl = urlTask.getResult();
+            String voiceUrl = String.valueOf(downloadUrl);
 
-                Chats chats = new Chats(
-                        getCurrentDate(),
-                        "",
-                        "VOICE",
-                        firebaseUser.getUid(),
-                        receiverID,
-                        voiceUrl
-                );
+            Chats chats = new Chats(
+                    getCurrentDate(),
+                    "",
+                    "VOICE",
+                    firebaseUser.getUid(),
+                    receiverID,
+                    voiceUrl
+            );
 
-                reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Send", "onSuccess: ");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Send", "onFailure: "+e.getMessage());
-                    }
-                });
+            reference.child("Chats").push().setValue(chats)
+                    .addOnSuccessListener(aVoid -> Log.d("Send", "onSuccess: "))
+                    .addOnFailureListener(e -> Log.d("Send", "onFailure: "+e.getMessage()));
 
-                //Add to ChatList
-                DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receiverID);
-                chatRef1.child("chatid").setValue(receiverID);
+            //Add to ChatList
+            DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receiverID);
+            chatRef1.child("chatid").setValue(receiverID);
 
-                //
-                DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receiverID).child(firebaseUser.getUid());
-                chatRef2.child("chatid").setValue(firebaseUser.getUid());
-            }
+            //
+            DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receiverID).child(firebaseUser.getUid());
+            chatRef2.child("chatid").setValue(firebaseUser.getUid());
         });
     }
-
-
 
 }
