@@ -47,7 +47,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements AdapterView
     }
 
     private void initialize() {
-        Spinner spin = findViewById(R.id.country_spinner);
+        Spinner spin = findViewById(R.id.countrySpinner);
         progressDialog = new ProgressDialog(this);
         spin.setOnItemSelectedListener(this);
 

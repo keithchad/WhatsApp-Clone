@@ -1,119 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Authentication.PhoneLoginActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:id="@+id/top_text"
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="19sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="@string/enter_phone_number"/>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_more"
-            android:tint="@android:color/background_dark"
-            android:contentDescription="@string/app_name"
-            android:background="@android:color/transparent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_text"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="20dp">
+        tools:context=".Authentication.PhoneLoginActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/topText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textColor="@android:color/black"
-            android:text="@string/verify_your_phone_number"/>
+            android:padding="15dp"
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/country_spinner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="19sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/enter_phone_number"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more"
+                android:tint="@android:color/background_dark"
+                android:contentDescription="@string/app_name"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:layout_below="@id/topText"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/countrycode_"
-            android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:text="@string/verify_your_phone_number"/>
 
-        <EditText
-            android:id="@+id/edittext_country_code"
-            android:layout_width="50dp"
-            android:gravity="end"
-            android:layout_height="wrap_content"
-            android:hint="@string/countrycode"
-            android:inputType="number"
-            android:maxLength="3"
-            android:lines="1"/>
+            <Spinner
+                android:id="@+id/countrySpinner"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/edittext_phonenumber"
-           android:layout_width="200dp"
-           android:layout_height="wrap_content"
-           android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:maxLength="13"
-            android:lines="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/countrycode_"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/edittextCountrycode"
+                android:layout_width="50dp"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                android:hint="@string/countrycode"
+                android:inputType="number"
+                android:maxLength="3"
+                android:importantForAutofill="no"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edittextPhonenumber"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:importantForAutofill="no"
+                android:maxLength="13"
+                android:lines="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:text="@string/carrier_sms"/>
+
+            <EditText
+                android:id="@+id/edittextCode"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:maxLength="6"
+                android:inputType="number"
+                android:hint="@string/enter_code"
+                android:importantForAutofill="no" />
 
         </LinearLayout>
 
-        <TextView
+        <Button
+            android:id="@+id/nextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginTop="15dp"
-            android:text="@string/carrier_sms"/>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:background="#11E302"
+            android:textColor="@android:color/white"
+            android:text="@string/next"/>
 
-        <EditText
-            android:id="@+id/edittext_code"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:maxLength="6"
-            android:inputType="number"
-            android:hint="@string/enter_code" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="#11E302"
-        android:textColor="@android:color/white"
-        android:text="@string/next"/>
-
-</RelativeLayout>
 </layout>
